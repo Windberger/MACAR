@@ -1,12 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+
 import {Card, CardContent, CardHeader, Typography} from "@mui/material";
 
 InformationCard.propTypes = {
     
 };
 
-function InformationCard({title, description}) {
+interface IInformationCard{
+    title: string,
+    description: string
+}
+
+function InformationCard({title, description} : IInformationCard) {
     return (
         <Card sx={{ maxWidth: 345, backgroundColor: '#333', color: '#fff', borderRadius: 2 }}>
             <CardHeader
@@ -15,7 +19,6 @@ function InformationCard({title, description}) {
                         {title}
                     </Typography>
                 }
-                action={<span style={{ fontSize: '1.5em' }}>🔴</span>}
                 sx={{ color: '#fff' }}
             />
             <CardContent>
