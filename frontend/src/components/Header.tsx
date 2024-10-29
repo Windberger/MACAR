@@ -24,7 +24,7 @@ function Header() {
     };
 
     return (
-        <header className="w-full bg-black text-white shadow-lg fixed top-0 left-0 z-50">
+        <header className="w-full text-white fixed top-0 left-0 z-50">
             <div className="w-full flex justify-between items-center h-16">
                 {/* Logo on the far left */}
                 <div className="flex items-center ml-3">
@@ -67,7 +67,7 @@ function Header() {
 
             {/* Sidebar that slides in from the right */}
             <div
-                className={`fixed top-0 right-0 h-full bg-red-950 text-white transform transition-all duration-700 ease-in-out ${isOpen ? (isExpanded ? 'translate-x-0 w-full' : 'translate-x-0 w-64') : 'translate-x-full'}`}>
+                className={`fixed top-0 right-0 h-full bg-black text-white transform transition-all duration-700 ease-in-out ${isOpen ? (isExpanded ? 'translate-x-0 w-full' : 'translate-x-0 w-64') : 'translate-x-full'}`}>
                 <div className="flex flex-col p-4">
                     {/* Show LoginPage content only */}
                     {isExpanded ? (
