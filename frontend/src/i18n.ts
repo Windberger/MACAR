@@ -30,7 +30,7 @@ i18n.use(initReactI18next).init({
                 //Header
                 headerCard: "Cards",
                 headerPictures: "Pictures",
-                headerElse: "ElseElse",
+                headerElse: "Else",
 
                 // HeroImage
                 heroImageDescription: "Ihre Autowerkstatt für erstklassigen Service. Inspektion, Reperaturen oder individuelle Lösungen - wir kümmern uns um Ihr Fahrzeug als wäre es unser eigenes",
