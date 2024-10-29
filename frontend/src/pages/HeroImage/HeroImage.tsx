@@ -1,15 +1,12 @@
 import heroBackground from "../../assets/images/heroImageCar.png";
 
-HeroImage.propTypes = {
-
-};
-
 function HeroImage() {
     return (
-        <div className="relative h-screen bg-cover bg-center"
+        <div className="relative min-h-screen w-full bg-cover bg-center"
              style={{backgroundImage: `url(${heroBackground})`}}>
 
-            <div className="relative z-10 flex flex-col justify-center items-center text-center text-white h-full">
+            <div
+                className="relative z-10 flex flex-col justify-center items-center text-center text-white h-full w-full">
                 <h1 className="text-5xl md:text-7xl font-bold mb-4">Welcome to Our World</h1>
                 <p className="text-xl md:text-2xl mb-6">Where innovation meets creativity</p>
 
