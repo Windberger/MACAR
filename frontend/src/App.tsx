@@ -1,10 +1,12 @@
 import "./App.css";
 import InformationCard from "./components/InformationCard.tsx";
 import HeroImage from "./pages/HeroImage/HeroImage.tsx";
+import Header from "./components/Header.tsx";
 
 function App() {
   return (
     <>
+        <Header />
       <div>
         <HeroImage />
       </div>
@@ -16,7 +18,6 @@ function App() {
         />
       </div>
 
-      <div className="font-bold">tailwind</div>
     </>
   );
 }
