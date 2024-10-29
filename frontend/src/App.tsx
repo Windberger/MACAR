@@ -1,12 +1,15 @@
-
-
 import './App.css'
 import InformationCard from "./components/InformationCard.tsx";
+import HeroImage from "./pages/HeroImage/HeroImage.tsx";
 
 function App() {
 
   return (
       <>
+          <div>
+              <HeroImage/>
+          </div>
+
           <div style={{padding: '20px'}}>
               <InformationCard
                   title="Auto Waschanlage und Detailing"

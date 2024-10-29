@@ -1,4 +1,4 @@
-import heroBackground from "../../assets/images/heroImageCar.jpg"
+import heroBackground from "../../assets/images/heroImageCar.png";
 
 HeroImage.propTypes = {
 
