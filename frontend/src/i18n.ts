@@ -10,12 +10,30 @@ i18n.use(initReactI18next).init({
     resources: {
         en: {
             translation: {
-                title: "Hello",
+                // App
+                appTitle: "Hello",
+
+                // Header
+                headerCard: "Cards",
+                headerPictures: "Pictures",
+                headerElse: "Else",
+
+                // HeroImage
+                heroImageDescription: "Ihre Autowerkstatt für erstklassigen Service. Inspektion, Reperaturen oder individuelle Lösungen - wir kümmern uns um Ihr Fahrzeug als wäre es unser eigenes",
             }
         },
         bs: {
             translation: {
-                title: "Hallo",
+                //App
+                appTitle: "Hallo",
+
+                //Header
+                headerCard: "Cards",
+                headerPictures: "Pictures",
+                headerElse: "ElseElse",
+
+                // HeroImage
+                heroImageDescription: "Ihre Autowerkstatt für erstklassigen Service. Inspektion, Reperaturen oder individuelle Lösungen - wir kümmern uns um Ihr Fahrzeug als wäre es unser eigenes",
             }
         }
     },

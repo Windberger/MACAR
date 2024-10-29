@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { Link } from 'react-scroll';
+import {useState} from 'react';
+import {Link} from 'react-scroll';
 import logo from "../assets/images/logo.png";
-import { Sling as Hamburger } from 'hamburger-react';
+import {Sling as Hamburger} from 'hamburger-react';
 import LoginPage from "../pages/LoginPage/LoginPage";
+import {useTranslation} from "react-i18next";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
+    const {t} = useTranslation();
 
     // Toggle function for the sidebar
     const toggleSidebar = () => {
@@ -28,7 +30,7 @@ function Header() {
             <div className="w-full flex justify-between items-center h-16">
                 {/* Logo on the far left */}
                 <div className="flex items-center ml-3">
-                    <img src={logo} alt="Logo" className="h-14 w-14" />
+                    <img src={logo} alt="Logo" className="h-14 w-14"/>
                 </div>
 
                 {/* Navigation links in the center */}
@@ -39,7 +41,7 @@ function Header() {
                         duration={500}
                         className="cursor-pointer text-red-500 hover:text-white hover:glow-red transition-all"
                     >
-                        Cards
+                        {t("headerCard")}
                     </Link>
                     <Link
                         to="pictures"
@@ -47,7 +49,7 @@ function Header() {
                         duration={500}
                         className="cursor-pointer text-red-500 hover:text-white hover:glow-red transition-all"
                     >
-                        Pictures
+                        {t("headerPictures")}
                     </Link>
                     <Link
                         to="else"
@@ -55,13 +57,13 @@ function Header() {
                         duration={500}
                         className="cursor-pointer text-red-500 hover:text-white hover:glow-red transition-all"
                     >
-                        Else
+                        {t("headerElse")}
                     </Link>
                 </nav>
 
                 {/* Hamburger menu icon to toggle sidebar */}
                 <div className="mr-3 flex items-center hover:glow-red z-10">
-                    <Hamburger toggled={isOpen} toggle={toggleSidebar} />
+                    <Hamburger toggled={isOpen} toggle={toggleSidebar}/>
                 </div>
             </div>
 
@@ -71,7 +73,7 @@ function Header() {
                 <div className="flex flex-col p-4">
                     {/* Show LoginPage content only */}
                     {isExpanded ? (
-                        <LoginPage />
+                        <LoginPage/>
                     ) : (
                         <button
                             onClick={expandSidebar}

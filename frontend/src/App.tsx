@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 
 function App() {
 
-    const { i18n, t } = useTranslation();
+    const {i18n, t} = useTranslation();
     const onChangeLang = (lang: string) => {
         i18n.changeLanguage(lang);
     };
@@ -17,7 +17,7 @@ function App() {
             <div>
                 <HeroImage/>
             </div>
-            <div>{t("title")}</div>
+            <div>{t("appTitle")}</div>
 
             <button onClick={() => onChangeLang("en")}>Englisch</button>
             <button onClick={() => onChangeLang("bs")}>Bosnisch</button>
