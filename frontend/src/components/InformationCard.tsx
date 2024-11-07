@@ -1,30 +1,26 @@
+import "../App.css";
+import { Card, CardContent, CardHeader } from "@mui/material";
 
-import {Card, CardContent, CardHeader, Typography} from "@mui/material";
-
-InformationCard.propTypes = {
-    
-};
-
-interface IInformationCard{
+interface IInformationCard {
     title: string,
     description: string
 }
 
-function InformationCard({title, description} : IInformationCard) {
+function InformationCard({ title, description }: IInformationCard) {
     return (
-        <Card sx={{ maxWidth: 345, backgroundColor: '#333', color: '#fff', borderRadius: 2 }}>
+        <Card className="card-glow bg-grey mt-5 mb-4 ml-4 w-[450px] h-[500px] rounded-[20px]">
             <CardHeader
+                className="text-white mt-5 mb-5"
                 title={
-                    <Typography variant="h6" component="div">
+                    <div className="text-3xl font-bold">
                         {title}
-                    </Typography>
+                    </div>
                 }
-                sx={{ color: '#fff' }}
             />
-            <CardContent>
-                <Typography variant="body2" color="inherit">
+            <CardContent className="text-white mb-4">
+                <div className="text-xl">
                     {description}
-                </Typography>
+                </div>
             </CardContent>
         </Card>
     );

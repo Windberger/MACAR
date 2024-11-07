@@ -38,5 +38,13 @@
     animation: fadeIn 2s ease-in-out;
 }
 
+/* InformationCard */
+.bg-grey {
+    background-color: rgb(44, 44, 44) !important;
+}
+.card-glow{
+    box-shadow: 0 10px 20px rgba(127, 12, 12, 1) !important;
+}
+
 
 
