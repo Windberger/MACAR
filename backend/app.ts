@@ -9,7 +9,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3000;
 app.use(cors({
   origin: '*', // Erlaubt alle Urspr�nge
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
