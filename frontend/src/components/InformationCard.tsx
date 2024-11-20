@@ -8,7 +8,7 @@ interface IInformationCard {
 
 function InformationCard({ title, description }: IInformationCard) {
     return (
-        <Card className="card-glow bg-grey mt-5 mb-4 ml-4 w-[450px] h-[500px]" style={{borderRadius: "30px"}}>
+        <Card className="card-glow bg-grey mt-5 mb-4 ml-4 w-[450px] h-[500px] p-5" style={{borderRadius: "30px"}}>
             <CardHeader
                 className="text-white mt-5 mb-5"
                 title={
