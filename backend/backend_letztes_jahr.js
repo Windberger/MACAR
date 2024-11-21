@@ -27,7 +27,7 @@ const jwtSecret = process.env.JWT_SECRET;
 
 // Middleware zur Authentifizierung
 const authMiddleware = (req, res, next) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+  const token = req.header('Authorization')?.replace('Bearer ', '')
   console.log(new Date());
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });

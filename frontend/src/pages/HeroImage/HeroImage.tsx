@@ -1,7 +1,11 @@
 import heroBackground from "../../assets/images/heroImageCar.png";
-import "../../App.css"; // Ensure this import is present to include the CSS
+import "../../App.css";
+import {useTranslation} from "react-i18next"; // Ensure this import is present to include the CSS
 
 function HeroImage() {
+
+    const {t} = useTranslation();
+
     return (
         <div className="relative h-screen w-full bg-black flex items-center justify-center">
             <div
@@ -19,7 +23,7 @@ function HeroImage() {
                     MA<span className="macar text-white">CAR</span>
                 </h1>
                 <p className="text-xl md:text-2xl mb-6 max-w-2xl mx-auto">
-                    Ihre Autowerkstatt für erstklassigen Service. Inspektion, Reperaturen oder individuelle Lösungen - wir kümmern uns um Ihr Fahrzeug als wäre es unser eigenes
+                    {t("heroImageDescription")}
                 </p>
             </div>
         </div>

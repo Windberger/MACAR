@@ -19,7 +19,7 @@ i18n.use(initReactI18next).init({
                 headerElse: "Else",
 
                 // HeroImage
-                heroImageDescription: "Ihre Autowerkstatt für erstklassigen Service. Inspektion, Reperaturen oder individuelle Lösungen - wir kümmern uns um Ihr Fahrzeug als wäre es unser eigenes",
+                heroImageDescription: "Your car workshop for first-class service. Inspections, repairs, or customized solutions – we take care of your vehicle as if it were our own.",
 
                 // InformationCard
                 firstInformationCardTitle: "Car wash; and detailing",
@@ -37,7 +37,7 @@ i18n.use(initReactI18next).init({
                 //Header
                 headerCard: "Cards",
                 headerPictures: "Pictures",
-                headerElse: "ElseElse",
+                headerElse: "Else",
 
                 // HeroImage
                 heroImageDescription: "Ihre Autowerkstatt für erstklassigen Service. Inspektion, Reperaturen oder individuelle Lösungen - wir kümmern uns um Ihr Fahrzeug als wäre es unser eigenes",
