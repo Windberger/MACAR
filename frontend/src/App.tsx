@@ -1,8 +1,8 @@
-import "./App.css";
 import HeroImage from "./pages/HeroImage/HeroImage.tsx";
 import Header from "./components/Header.tsx";
 import {useTranslation} from "react-i18next";
 import InformationCardsLayout from "./pages/InformationCards/InformationCardsLayout.tsx";
+import CompanyPage from "./pages/CompanyPage/CompanyPage.tsx";
 
 function App() {
 
@@ -23,7 +23,8 @@ function App() {
             <button onClick={() => onChangeLang("bs")}>Bosnisch</button>
 
 
-               <InformationCardsLayout></InformationCardsLayout>
+            <InformationCardsLayout></InformationCardsLayout>
+            <CompanyPage heading={t("headingCompanyPage")}></CompanyPage>
 
 
         </>

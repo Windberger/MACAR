@@ -1,4 +1,3 @@
-import "../App.css";
 import {Card, CardContent, CardHeader} from "@mui/material";
 
 interface IInformationCard {
