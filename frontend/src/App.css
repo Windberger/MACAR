@@ -42,8 +42,9 @@
 .bg-grey {
     background-color: rgb(44, 44, 44) !important;
 }
-.card-glow{
-    box-shadow: 0 10px 20px rgba(127, 12, 12, 1) !important;
+
+.card-glow {
+    box-shadow: 0 0px 50px rgba(127, 12, 12, 1) !important;
 }
 
 
