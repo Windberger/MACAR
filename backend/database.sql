@@ -10,6 +10,10 @@ CREATE TABLE user_account (
 
 );
 
+-- make phone number unique
+ALTER TABLE user_account ADD CONSTRAINT unique_phone_number UNIQUE(phone_number);
+
+
 SELECT * FROM user_account;
 SELECT * FROM appointment;
 
