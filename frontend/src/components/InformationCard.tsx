@@ -7,14 +7,12 @@ interface IInformationCard {
 }
 
 function InformationCard({title, description, left}: IInformationCard) {
-    const styleHeader = "text-white mt-5 text-left " + (left ? "text-left" : "text-right");
+    const styleHeader = "text-black  mt-5 text-left " + (left ? "text-left" : "text-right");
 
     const parts= title.split(";");
 
     return (
-        <Card className="card-glow bg-grey mt-5 mb-4 ml-4 w-[450px] h-[500px] p-5" style={{borderRadius: "30px"}}>
-
-
+        <Card className="card-glow bg-card  mt-5 mb-4 ml-4 w-[450px] h-[500px] p-5" style={{borderRadius: "30px"}}>
             <CardHeader
                 className={styleHeader}
                 title={
@@ -25,7 +23,7 @@ function InformationCard({title, description, left}: IInformationCard) {
                     </div>
                 }
             />
-            <CardContent className="text-white mb-4">
+            <CardContent className="text-black mb-4">
                 <div className="text-xl text-justify">
                     {description}
                 </div>

@@ -3,12 +3,12 @@ import heroBackground from "../../assets/images/heroImageCar.png";
 import PropTypes from "prop-types";
 
 
-CompanyPage.propTypes = {
+Carousel.propTypes = {
     heading: PropTypes.string.isRequired
 };
 
 
-function CompanyPage(heading: { heading: string }) {
+function Carousel(heading: { heading: string }) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const images = [heroBackground, heroBackground, heroBackground, heroBackground, heroBackground];
@@ -80,4 +80,4 @@ function CompanyPage(heading: { heading: string }) {
     );
 }
 
-export default CompanyPage;
+export default Carousel;
