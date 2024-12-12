@@ -40,10 +40,10 @@
 
 /* InformationCard */
 .bg-card {
-    background-color: rgba(205, 204, 204, 0.53) !important;
+    background-color: rgba(36, 36, 36, 0) !important;
 }
 
-.card-glow {
+.icon-glow {
     box-shadow: 0 0px 50px rgb(255, 255, 255) !important;
 }
 
