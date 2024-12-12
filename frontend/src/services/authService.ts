@@ -1,7 +1,7 @@
 import apiClient from "./apiClient.ts";
 import {LoginUser, RegisterUser} from "../types/UserData.ts";
 
-const registerUser = async (userData: RegisterUser) => {
+export const registerUser = async (userData: RegisterUser) => {
     try {
         const response = await apiClient.post('/register', userData, {
             headers: {
@@ -16,7 +16,7 @@ const registerUser = async (userData: RegisterUser) => {
     }
 };
 
-const loginUser = async (userData: LoginUser) => {
+export const loginUser = async (userData: LoginUser) => {
     try {
         const response = await apiClient.post('/login', userData, {
             headers: {

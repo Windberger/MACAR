@@ -1,11 +1,14 @@
 import { useState } from "react";
 import CarImage from "../../assets/images/heroImageCar.png";
 import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
+import {loginUser, registerUser} from "../../services/authService.ts";
+import validator from "validator";
 
 LoginPage.propTypes = {};
 
 function LoginPage() {
     const [isRegistering, setIsRegistering] = useState(false);
+
     const [formData, setFormData] = useState({
         emailOrPhone: "",
         password: "",
@@ -22,14 +25,47 @@ function LoginPage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isRegistering) {
-            console.log("Registrieren:", formData);
+            if(validator.isEmail(formData.emailOrPhone)) {
+                registerUser({
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    email: formData.emailOrPhone,
+                    phone_number: null,
+                    password: formData.password,
+                }).then(r => console.log(r)).catch(e => console.error(e));
+            } else if(validator.isMobilePhone(formData.emailOrPhone)) {
+                registerUser({
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    email: null,
+                    phone_number: formData.emailOrPhone,
+                    password: formData.password,
+                }).then(r => console.log(r)).catch(e => console.error(e));
+            } else {
+                console.error("Invalid email or phone number");
+                //TODO: Fehlermeldung
+            }
         } else {
-            console.log("Anmelden:", {
-                emailOrPhone: formData.emailOrPhone,
-                password: formData.password,
-            });
+            if(validator.isEmail(formData.emailOrPhone)) {
+                loginUser({
+                    email: formData.emailOrPhone,
+                    phoneNumber: null,
+                    password: formData.password,
+                }).then(r => console.log(r)).catch(e => console.error(e));
+            } else if(validator.isMobilePhone(formData.emailOrPhone)) {
+                loginUser({
+                    email: null,
+                    phoneNumber: formData.emailOrPhone,
+                    password: formData.password,
+                }).then(r => console.log(r)).catch(e => console.error(e));
+            } else {
+                console.error("Invalid email or phone number");
+                //TODO: Fehlermeldung
+            }
         }
     };
+
+
 
     const isPasswordValid = (password: string) => {
         return /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
