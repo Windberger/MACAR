@@ -2,6 +2,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 // import {Pool} from 'pg';
 import authRoutes from "./routes/authRoutes";
+import getUser from "./routes/getUser";
 
 const app = express();
 const port = 3001;
@@ -24,6 +25,8 @@ app.use(bodyParser.json());
 // });
 
 app.use('/', authRoutes);
+app.use('/', getUser);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
