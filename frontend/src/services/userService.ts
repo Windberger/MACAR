@@ -1,6 +1,6 @@
 import apiClient from './apiClient';
 
-const fetchUserData = async (token) => {
+export const fetchUserData = async (token: string) => {
     try {
         const response = await apiClient.get('/getUser', {
             headers: {
@@ -11,6 +11,6 @@ const fetchUserData = async (token) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching user data:', error);
-        throw error.response ? error.response.data : error;
+        throw error;
     }
 };

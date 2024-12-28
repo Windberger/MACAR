@@ -11,8 +11,7 @@ export const registerUser = async (userData: RegisterUser) => {
 
         return response.data;
     } catch (error) {
-        console.error('Error registering user:', error);
-        throw error.response ? error.response.data : error;
+        throw error;
     }
 };
 
@@ -26,7 +25,6 @@ export const loginUser = async (userData: LoginUser) => {
 
         return response.data;
     } catch (error) {
-        console.error('Error logging in user:', error);
-        throw error.response ? error.response.data : error;
+        throw error;
     }
 }

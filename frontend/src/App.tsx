@@ -3,6 +3,7 @@ import Header from "./components/Header.tsx";
 import {useTranslation} from "react-i18next";
 import InformationCardsLayout from "./pages/InformationCards/InformationCardsLayout.tsx";
 import Carousel from "./pages/CompanyPage/Carousel.tsx";
+import {UserProvider} from "./context/UserContext.tsx";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
     };
 
     return (
-        <>
+        <UserProvider>
             <Header/>
             <div>
                 <HeroImage/>
@@ -23,7 +24,7 @@ function App() {
 
             <InformationCardsLayout></InformationCardsLayout>
             <Carousel heading={t("headingCompanyPage")}></Carousel>
-        </>
+        </UserProvider>
     );
 }
 

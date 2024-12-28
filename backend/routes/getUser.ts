@@ -7,17 +7,16 @@ const router = express.Router();
 // @ts-ignore
 router.get('/getUser', authMiddleware, async (req, res) => {
 
-    const userId= req.body.user_id;
-    const result = await pool.query("SELECT first_name, last_name, email, phone_number, bonus, appointment_date FROM user_account INNER JOIN appointment USING(user_id) WHERE user_id = $1", [userId]);
+    // @ts-ignore
+    const userId = req.user_id;
+    console.log(userId);
+    const result = await pool.query("SELECT first_name, last_name, email, phone_number, bonus FROM user_account WHERE user_id = $1", [userId]);
 
 
     if (!result) {
         return res.status(404).json({message: 'No user with this id'});
-
     }
 
-    res.status(200).json(result.rows);
-
-
+    res.status(200).json(result.rows[0]);
 })
 export default router;

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-scroll';
 import logo from "../assets/images/logo.png";
 import { Sling as Hamburger } from 'hamburger-react';
 import { RiSettingsFill, RiTempColdLine, RiTempHotLine, RiThunderstormsLine } from "react-icons/ri";
@@ -28,7 +27,7 @@ function Header({ redIconsCount }: HeaderProps) {
     const [isLoggedIn, setIsLoggedIn] = useState(true); // User login state
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
     const { t } = useTranslation();
-    redIconsCount=2;
+    redIconsCount = 2;
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);

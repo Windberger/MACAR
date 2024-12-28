@@ -1,8 +1,12 @@
-import { useState } from "react";
+import React, {useContext, useState} from "react";
 import CarImage from "../../assets/images/heroImageCar.png";
-import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
+import {FaEye, FaEyeSlash, FaCheck} from "react-icons/fa";
 import {loginUser, registerUser} from "../../services/authService.ts";
 import validator from "validator";
+import {Alert, Snackbar} from "@mui/material";
+import {useTranslation} from "react-i18next";
+import {UserContext} from "../../context/UserContext.tsx";
+import {fetchUserData} from "../../services/userService.ts";
 
 LoginPage.propTypes = {};
 
@@ -16,55 +20,125 @@ function LoginPage() {
         lastName: "",
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const {t} = useTranslation();
+    const userContext = useContext(UserContext);
+
+    if (!userContext) {
+        throw new Error("UserContext must be used within a UserContextProvider");
+    }
+
+    const {setIsLoggedIn, setToken, setUser} = userContext;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        const {name, value} = e.target;
+        setFormData((prev) => ({...prev, [name]: value}));
     };
+
+    const handleErrors = (e: { response: { data: { message: string } } } | string) => {
+        /*
+            Register Error Messages:
+                400: All fields are required
+                400: Invalid email
+                400: Invalid phone number
+                400: Invalid password
+                409: Email is already in use
+                409: Phone number is already in use
+                500: Error registering user
+            Login Error Messages:
+                400: Not all fields provided
+                404: User not found
+                401: Invalid credentials
+                500: Error logging in
+         */
+
+        const messageText = typeof e === "string" ? e : e.response.data.message;
+        if (isRegistering) {
+            if (messageText === "Invalid email") {
+                setErrorMessage(t("loginPageErrorKey"));
+            } else if (messageText === "Invalid phone number") {
+                setErrorMessage(t("loginPageErrorInvalidKey"));
+            } else if (messageText === "Invalid password") {
+                setErrorMessage(t("loginPageErrorInvalidPassword"));
+            } else if (messageText === "All fields are required") {
+                setErrorMessage(t("loginPageErrorAllFieldsRequired"));
+            } else if (messageText === "Email is already in use") {
+                setErrorMessage(t("loginPageErrorEmailInUse"));
+            } else if (messageText === "Phone number is already in use") {
+                setErrorMessage(t("loginPageErrorPhoneNumberInUse"));
+            } else if (messageText === "Error registering user") {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            } else {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            }
+        } else {
+            if (messageText === "Not all fields provided") {
+                setErrorMessage(t("loginPageErrorAllFieldsRequired"));
+            } else if (messageText === "User not found") {
+                setErrorMessage(t("loginPageErrorUserNotFound"));
+            } else if (messageText === "Invalid credentials") {
+                setErrorMessage(t("loginPageErrorInvalidCredentials"));
+            } else if (messageText === "Error logging in") {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            } else {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            }
+        }
+
+        setError(true);
+    }
+
+    const handleLogin = (token: string) => {
+
+        setToken(token);
+        fetchUserData(token).then((r) => {
+            setUser(r);
+            setIsLoggedIn(true);
+            //TODO: Continue to the next page
+        }).catch(e => handleErrors(e));
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isRegistering) {
-            if(validator.isEmail(formData.emailOrPhone)) {
+            if (validator.isEmail(formData.emailOrPhone)) {
                 registerUser({
                     first_name: formData.firstName,
                     last_name: formData.lastName,
                     email: formData.emailOrPhone,
                     phone_number: null,
                     password: formData.password,
-                }).then(r => console.log(r)).catch(e => console.error(e));
-            } else if(validator.isMobilePhone(formData.emailOrPhone)) {
+                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+            } else if (validator.isMobilePhone(formData.emailOrPhone)) {
                 registerUser({
                     first_name: formData.firstName,
                     last_name: formData.lastName,
                     email: null,
                     phone_number: formData.emailOrPhone,
                     password: formData.password,
-                }).then(r => console.log(r)).catch(e => console.error(e));
+                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
             } else {
-                console.error("Invalid email or phone number");
-                //TODO: Fehlermeldung
+                handleErrors("Invalid email");
             }
         } else {
-            if(validator.isEmail(formData.emailOrPhone)) {
+            if (validator.isEmail(formData.emailOrPhone)) {
                 loginUser({
                     email: formData.emailOrPhone,
                     phoneNumber: null,
                     password: formData.password,
-                }).then(r => console.log(r)).catch(e => console.error(e));
-            } else if(validator.isMobilePhone(formData.emailOrPhone)) {
+                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+            } else if (validator.isMobilePhone(formData.emailOrPhone)) {
                 loginUser({
                     email: null,
                     phoneNumber: formData.emailOrPhone,
                     password: formData.password,
-                }).then(r => console.log(r)).catch(e => console.error(e));
+                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
             } else {
-                console.error("Invalid email or phone number");
-                //TODO: Fehlermeldung
+                handleErrors("Invalid email");
             }
         }
     };
-
 
 
     const isPasswordValid = (password: string) => {
@@ -119,11 +193,11 @@ function LoginPage() {
                             className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                             onClick={() => setShowPassword(!showPassword)}
                         >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {showPassword ? <FaEyeSlash/> : <FaEye/>}
                         </span>
                         {isPasswordValid(formData.password) && (
                             <span className="absolute inset-y-0 right-10 flex items-center text-red-500">
-                                <FaCheck />
+                                <FaCheck/>
                             </span>
                         )}
                     </div>
@@ -164,6 +238,15 @@ function LoginPage() {
                             : "Melden Sie sich an, um fortzufahren."}
                     </p>
                 </div>
+            </div>
+            <div>
+                {/* TODO: Center Snackbar */}
+                <Snackbar
+                    open={error}
+                    autoHideDuration={6000}
+                    onClose={() => setError(false)}>
+                    <Alert severity="error">{errorMessage}</Alert>
+                </Snackbar>
             </div>
         </div>
     );

@@ -18,5 +18,6 @@ export interface User {
     last_name: string,
     email: string,
     phone_number: string,
-    bonus: number
+    is_admin: boolean,
+    bonus: number,
 }
