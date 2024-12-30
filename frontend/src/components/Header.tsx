@@ -1,13 +1,11 @@
-import { useState } from 'react';
+import {useContext, useState} from 'react';
 import logo from "../assets/images/logo.png";
 import { Sling as Hamburger } from 'hamburger-react';
 import { RiSettingsFill, RiTempColdLine, RiTempHotLine, RiThunderstormsLine } from "react-icons/ri";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import { useTranslation } from "react-i18next";
-
-interface HeaderProps {
-    redIconsCount: number;
-}
+import {UserContext} from "../context/UserContext.tsx";
+import {nullUser} from "../types/UserData.ts";
 
 interface Appointment {
     type: string;
@@ -22,12 +20,17 @@ const appointments: Appointment[] = [
     { type: "storm", date: "2023-12-03", time: "6:00 PM", description: "Storm event" },
 ];
 
-function Header({ redIconsCount }: HeaderProps) {
+function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
-    const [isLoggedIn, setIsLoggedIn] = useState(true); // User login state
+
+    const userContext = useContext(UserContext);
+    if(!userContext){
+        throw new Error("useUser must be used within a UserProvider");
+    }
+    const {isLoggedIn, setIsLoggedIn, setToken, user, setUser} = userContext// User login state
+
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
     const { t } = useTranslation();
-    redIconsCount = 2;
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -37,7 +40,9 @@ function Header({ redIconsCount }: HeaderProps) {
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false); // Simulate logout
+        setIsLoggedIn(false);// Simulate logout
+        setToken(null);
+        setUser(nullUser);
         setIsExpanded(false); // Close sidebar
     };
 
@@ -45,10 +50,11 @@ function Header({ redIconsCount }: HeaderProps) {
         setIsExpanded(true); // Expand sidebar to show login page
     };
 
+    //TODO add text: "Bonus: 5/8"
     const icons = Array.from({ length: 8 }).map((_, index) => (
         <RiSettingsFill
             key={index}
-            className={`text-3xl ${index < redIconsCount ? "text-red-700" : "text-gray-500"}`}
+            className={`text-3xl ${index < user.bonus ? "text-red-700" : "text-gray-500"}`}
         />
     ));
 
@@ -88,8 +94,8 @@ function Header({ redIconsCount }: HeaderProps) {
                         isLoggedIn ? (
                             <div className="flex flex-col h-full">
                                 <div className="mt-16">
-                                    <h2 className="text-2xl font-bold">John Doe</h2>
-                                    <p className="text-sm">+123 456 789</p>
+                                    <h2 className="text-2xl font-bold">{user.first_name} {user.last_name}</h2>
+                                    <p className="text-sm">{!user.email ? user.phone_number : user.email}</p>
                                 </div>
                                 <div className="flex flex-col items-start my-4 flex-grow justify-center space-y-4">
                                     {appointments.map((appointment, index) => (
@@ -123,8 +129,8 @@ function Header({ redIconsCount }: HeaderProps) {
                             {isLoggedIn ? (
                                 <div className="flex flex-col h-full">
                                     <div className="mt-16">
-                                        <h2 className="text-2xl font-bold">John Doe</h2>
-                                        <p className="text-sm">+123 456 789</p>
+                                        <h2 className="text-2xl font-bold">{user.first_name} {user.last_name}</h2>
+                                        <p className="text-sm">{!user.email ? user.phone_number : user.email}</p>
                                     </div>
                                     <div className="flex flex-col items-start my-4 flex-grow justify-center space-y-4">
                                         {appointments.map((appointment, index) => (

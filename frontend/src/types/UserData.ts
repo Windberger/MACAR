@@ -21,3 +21,13 @@ export interface User {
     is_admin: boolean,
     bonus: number,
 }
+
+export const nullUser: User = {
+    user_id: 0,
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: '',
+    is_admin: false,
+    bonus: 0,
+}

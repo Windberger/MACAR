@@ -9,7 +9,6 @@ router.get('/getUser', authMiddleware, async (req, res) => {
 
     // @ts-ignore
     const userId = req.user_id;
-    console.log(userId);
     const result = await pool.query("SELECT first_name, last_name, email, phone_number, bonus FROM user_account WHERE user_id = $1", [userId]);
 
 

@@ -1,5 +1,5 @@
 import {createContext, useState, ReactNode} from 'react';
-import {User} from "../types/UserData.ts";
+import {nullUser, User} from "../types/UserData.ts";
 
 interface UserContextType {
     isLoggedIn: boolean;
@@ -13,16 +13,6 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({children}: {children: ReactNode}) => {
-
-    const nullUser: User = {
-        user_id: 0,
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_number: '',
-        is_admin: false,
-        bonus: 0,
-    }
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState<string | null>(null);

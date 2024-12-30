@@ -96,11 +96,36 @@ function LoginPage() {
             setUser(r);
             setIsLoggedIn(true);
             //TODO: Continue to the next page
+            alert("Login successful");
         }).catch(e => handleErrors(e));
+    }
+
+    const login = () => {
+        if (validator.isEmail(formData.emailOrPhone)) {
+            loginUser({
+                email: formData.emailOrPhone,
+                phoneNumber: null,
+                password: formData.password,
+            }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+        } else if (validator.isMobilePhone(formData.emailOrPhone)) {
+            loginUser({
+                email: null,
+                phoneNumber: formData.emailOrPhone,
+                password: formData.password,
+            }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+        } else {
+            handleErrors("Invalid email");
+        }
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if(!formData.emailOrPhone || !formData.password) {
+            handleErrors("All fields are required");
+            return;
+        }
+
         if (isRegistering) {
             if (validator.isEmail(formData.emailOrPhone)) {
                 registerUser({
@@ -109,7 +134,7 @@ function LoginPage() {
                     email: formData.emailOrPhone,
                     phone_number: null,
                     password: formData.password,
-                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+                }).then(() => login()).catch(e => handleErrors(e));
             } else if (validator.isMobilePhone(formData.emailOrPhone)) {
                 registerUser({
                     first_name: formData.firstName,
@@ -117,26 +142,12 @@ function LoginPage() {
                     email: null,
                     phone_number: formData.emailOrPhone,
                     password: formData.password,
-                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+                }).then(() => login()).catch(e => handleErrors(e));
             } else {
                 handleErrors("Invalid email");
             }
         } else {
-            if (validator.isEmail(formData.emailOrPhone)) {
-                loginUser({
-                    email: formData.emailOrPhone,
-                    phoneNumber: null,
-                    password: formData.password,
-                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
-            } else if (validator.isMobilePhone(formData.emailOrPhone)) {
-                loginUser({
-                    email: null,
-                    phoneNumber: formData.emailOrPhone,
-                    password: formData.password,
-                }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
-            } else {
-                handleErrors("Invalid email");
-            }
+            login();
         }
     };
 
