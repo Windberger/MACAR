@@ -15,9 +15,21 @@ export const getAppointmentsByUser = async (token: string) => {
             return [];
         }
 
+        const formatDate = (date: Date) => {
+            return date.toLocaleString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).replace(',', '');
+        };
+
         return dbAppointments.map((dbAppointment) => ({
             id: dbAppointment.appointment_id,
-            datetime: new Date(dbAppointment.appointment_datetime),
+            datetime: new Date (Date.parse(dbAppointment.appointment_datetime)),
+            datetimeString: formatDate(new Date (Date.parse(dbAppointment.appointment_datetime))),
             type: dbAppointment.appointment_type,
             description: dbAppointment.description,
         }));

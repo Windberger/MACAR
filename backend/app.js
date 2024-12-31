@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var bodyParser = require("body-parser");
-// import {Pool} from 'pg';
+var express_rate_limit_1 = require("express-rate-limit");
 var authRoutes_1 = require("./routes/authRoutes");
 var userRoutes_1 = require("./routes/userRoutes");
 var appointmentRoutes_1 = require("./routes/appointmentRoutes");
@@ -10,18 +10,16 @@ var app = express();
 var port = 3001;
 var cors = require('cors');
 app.use(cors({
-    origin: '*', // Erlaubt alle Urspr�nge
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+app.use((0, express_rate_limit_1.default)({
+    windowMs: 15 * 60 * 1000,
+    limit: 200,
+    message: "Too many requests from this IP, please try again later"
+}));
 app.use(bodyParser.json());
-// const pool = new Pool({
-//   user:     process.env.DB_USER,
-//   host:     process.env.DB_HOST,
-//   database: process.env.DB_NAME,
-//   password: process.env.DB_PASSWORD,
-//   port:     process.env.DB_PORT,
-// });
 app.use('/', authRoutes_1.default);
 app.use('/', userRoutes_1.default);
 app.use('/', appointmentRoutes_1.default);

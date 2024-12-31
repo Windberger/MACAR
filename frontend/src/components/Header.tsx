@@ -104,8 +104,7 @@ function Header() {
                                         <div key={index} className="flex flex-col items-start space-y-1">
                                             <div className="flex items-center space-x-2">
                                                 {getIcon(appointment.type)}
-                                                <span>{appointment.datetime.getDate()}</span>
-                                                <span>{appointment.datetime.getTime()}</span>
+                                                <span>{appointment.datetimeString}</span>
                                             </div>
                                             <span className="ml-8">{appointment.description}</span>
                                         </div>
@@ -139,8 +138,7 @@ function Header() {
                                             <div key={index} className="flex flex-col items-start space-y-1">
                                                 <div className="flex items-center space-x-2">
                                                     {getIcon(appointment.type)}
-                                                    <span>{appointment.datetime.getDate()}</span>
-                                                    <span>{appointment.datetime.getTime()}</span>
+                                                    <span>{appointment.datetimeString}</span>
                                                 </div>
                                                 <span className="ml-8">{appointment.description}</span>
                                             </div>

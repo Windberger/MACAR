@@ -8,6 +8,7 @@ export interface DatabaseAppointment {
 export interface Appointment {
     id: number;
     datetime: Date;
+    datetimeString: string;
     type: string;
     description: string;
 }

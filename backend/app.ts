@@ -1,6 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-// import {Pool} from 'pg';
+import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import appointmentRoutes from "./routes/appointmentRoutes";
@@ -10,20 +10,18 @@ const port = 3001;
 const cors = require('cors');
 
 app.use(cors({
-  origin: '*', // Erlaubt alle Urspr�nge
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(bodyParser.json());
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 200,
+  message: "Too many requests from this IP, please try again later"
+}));
 
-// const pool = new Pool({
-//   user:     process.env.DB_USER,
-//   host:     process.env.DB_HOST,
-//   database: process.env.DB_NAME,
-//   password: process.env.DB_PASSWORD,
-//   port:     process.env.DB_PORT,
-// });
+app.use(bodyParser.json());
 
 app.use('/', authRoutes);
 app.use('/', userRoutes);
