@@ -7,6 +7,7 @@ import {Alert, Snackbar} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import {UserContext} from "../../context/UserContext.tsx";
 import {fetchUserData} from "../../services/userService.ts";
+import {getAppointmentsByUser} from "../../services/appointmentService.ts";
 
 LoginPage.propTypes = {};
 
@@ -29,7 +30,7 @@ function LoginPage() {
         throw new Error("UserContext must be used within a UserContextProvider");
     }
 
-    const {setIsLoggedIn, setToken, setUser} = userContext;
+    const {setIsLoggedIn, setToken, setUser, setAppointments} = userContext;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -51,9 +52,17 @@ function LoginPage() {
                 404: User not found
                 401: Invalid credentials
                 500: Error logging in
+            Get User / Appointment:
+                401: Invalid token
+                401: Token required
          */
 
         const messageText = typeof e === "string" ? e : e.response.data.message;
+
+        if(messageText === "Token required" || messageText === "Invalid token") {
+            setErrorMessage(t("loginPageErrorToken"));
+        }
+
         if (isRegistering) {
             if (messageText === "Invalid email") {
                 setErrorMessage(t("loginPageErrorKey"));
@@ -95,8 +104,12 @@ function LoginPage() {
         fetchUserData(token).then((r) => {
             setUser(r);
             setIsLoggedIn(true);
+
+            getAppointmentsByUser(token).then((appointments) => {
+                setAppointments(appointments);
+            }).catch(e => handleErrors(e));
+
             //TODO: Continue to the next page
-            alert("Login successful");
         }).catch(e => handleErrors(e));
     }
 

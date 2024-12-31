@@ -41,6 +41,7 @@ i18n.use(initReactI18next).init({
 
                 loginPageErrorUserNotFound: "User not found",
                 loginPageErrorInvalidCredentials: "Invalid credentials",
+                loginPageErrorToken: 'Invalid token',
 
 
 
@@ -77,6 +78,7 @@ i18n.use(initReactI18next).init({
 
                 loginPageErrorUserNotFound: "Benutzer nicht gefunden",
                 loginPageErrorInvalidCredentials: "Passwort oder E-Mail/Telefonnummer ist falsch",
+                loginPageErrorToken: 'Ungültiger Token',
 
             }
         }

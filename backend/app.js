@@ -4,7 +4,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 // import {Pool} from 'pg';
 var authRoutes_1 = require("./routes/authRoutes");
-var getUser_1 = require("./routes/getUser");
+var userRoutes_1 = require("./routes/userRoutes");
+var appointmentRoutes_1 = require("./routes/appointmentRoutes");
 var app = express();
 var port = 3001;
 var cors = require('cors');
@@ -22,7 +23,8 @@ app.use(bodyParser.json());
 //   port:     process.env.DB_PORT,
 // });
 app.use('/', authRoutes_1.default);
-app.use('/', getUser_1.default);
+app.use('/', userRoutes_1.default);
+app.use('/', appointmentRoutes_1.default);
 app.listen(port, function () {
     console.log("Server is running on port ".concat(port));
 });

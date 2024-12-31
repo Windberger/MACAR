@@ -18,10 +18,17 @@ SELECT * FROM user_account;
 SELECT * FROM appointment;
 
 INSERT INTO user_account (first_name, last_name, email, phone_number, password) VALUES ('David2', 'Fink', 'david2@fink.com', '+4364465184936', 'password');
-INSERT INTO appointment (user_id, appointment_date) VALUES (1, to_date('2024-06-01', 'YYYY-MM-DD'));
+INSERT INTO appointment (user_id, appointment_datetime, appointment_type, description) VALUES (14, to_timestamp('30.12.2024,20:00', 'DD.MM.YYYY,HH24:MI'), 'cold', 'Auto reparieren');
 
 CREATE TABLE appointment (
     appointment_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES user_account(user_id) NOT NULL,
-    appointment_date TIMESTAMP NOT NULL
+    appointment_datetime TIMESTAMP NOT NULL,
+    appointment_type VARCHAR(30) NOT NULL,
+    description VARCHAR(255)
 );
+
+DROP TABLE appointment;
+
+-- rename appointment_date column to appointment_datetime
+ALTER TABLE appointment RENAME COLUMN appointment_date TO appointment_datetime;

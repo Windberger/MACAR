@@ -7,18 +7,19 @@ import { useTranslation } from "react-i18next";
 import {UserContext} from "../context/UserContext.tsx";
 import {nullUser} from "../types/UserData.ts";
 
-interface Appointment {
-    type: string;
-    date: string;
-    time: string;
-    description: string;
-}
+// interface Appointment {
+//     type: string;
+//     date: string;
+//     time: string;
+//     description: string;
+// }
+//
+// const appointments: Appointment[] = [
+//     { type: "cold", date: "2023-12-01", time: "10:00 AM", description: "Cold weather event" },
+//     { type: "hot", date: "2023-12-02", time: "2:00 PM", description: "Hot weather event" },
+//     { type: "storm", date: "2023-12-03", time: "6:00 PM", description: "Storm event" },
+// ];
 
-const appointments: Appointment[] = [
-    { type: "cold", date: "2023-12-01", time: "10:00 AM", description: "Cold weather event" },
-    { type: "hot", date: "2023-12-02", time: "2:00 PM", description: "Hot weather event" },
-    { type: "storm", date: "2023-12-03", time: "6:00 PM", description: "Storm event" },
-];
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
@@ -27,7 +28,7 @@ function Header() {
     if(!userContext){
         throw new Error("useUser must be used within a UserProvider");
     }
-    const {isLoggedIn, setIsLoggedIn, setToken, user, setUser} = userContext// User login state
+    const {isLoggedIn, setIsLoggedIn, setToken, user, setUser, appointments, setAppointments} = userContext// User login state
 
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
     const { t } = useTranslation();
@@ -43,6 +44,7 @@ function Header() {
         setIsLoggedIn(false);// Simulate logout
         setToken(null);
         setUser(nullUser);
+        setAppointments([]);
         setIsExpanded(false); // Close sidebar
     };
 
@@ -102,8 +104,8 @@ function Header() {
                                         <div key={index} className="flex flex-col items-start space-y-1">
                                             <div className="flex items-center space-x-2">
                                                 {getIcon(appointment.type)}
-                                                <span>{appointment.date}</span>
-                                                <span>{appointment.time}</span>
+                                                <span>{appointment.datetime.getDate()}</span>
+                                                <span>{appointment.datetime.getTime()}</span>
                                             </div>
                                             <span className="ml-8">{appointment.description}</span>
                                         </div>
@@ -137,8 +139,8 @@ function Header() {
                                             <div key={index} className="flex flex-col items-start space-y-1">
                                                 <div className="flex items-center space-x-2">
                                                     {getIcon(appointment.type)}
-                                                    <span>{appointment.date}</span>
-                                                    <span>{appointment.time}</span>
+                                                    <span>{appointment.datetime.getDate()}</span>
+                                                    <span>{appointment.datetime.getTime()}</span>
                                                 </div>
                                                 <span className="ml-8">{appointment.description}</span>
                                             </div>
