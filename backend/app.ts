@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
@@ -9,11 +10,14 @@ const app = express();
 const port = 3001;
 const cors = require('cors');
 
+app.use(cookieParser());
 app.use(cors({
-  origin: '*',
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
+
 
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -22,6 +26,7 @@ app.use(rateLimit({
 }));
 
 app.use(bodyParser.json());
+
 
 app.use('/', authRoutes);
 app.use('/', userRoutes);

@@ -18,7 +18,7 @@ SELECT * FROM user_account;
 SELECT * FROM appointment;
 
 INSERT INTO user_account (first_name, last_name, email, phone_number, password) VALUES ('David2', 'Fink', 'david2@fink.com', '+4364465184936', 'password');
-INSERT INTO appointment (user_id, appointment_datetime, appointment_type, description) VALUES (14, to_timestamp('30.12.2024,20:00', 'DD.MM.YYYY,HH24:MI'), 'cold', 'Auto reparieren');
+INSERT INTO appointment (user_id, appointment_datetime, appointment_type, description) VALUES (89, to_timestamp('30.12.2024,20:00', 'DD.MM.YYYY,HH24:MI'), 'cold', 'Auto reparieren');
 
 CREATE TABLE appointment (
     appointment_id SERIAL PRIMARY KEY,
@@ -32,3 +32,17 @@ DROP TABLE appointment;
 
 -- rename appointment_date column to appointment_datetime
 ALTER TABLE appointment RENAME COLUMN appointment_date TO appointment_datetime;
+
+
+CREATE OR REPLACE FUNCTION delete_invalid_tokens()
+RETURNS TRIGGER AS $$
+BEGIN
+   DELETE FROM refresh_tokens WHERE created_at < NOW() - INTERVAL '365 days';
+   RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_invalid_tokens_trigger
+AFTER INSERT ON refresh_tokens
+FOR EACH STATEMENT
+EXECUTE FUNCTION delete_invalid_tokens();

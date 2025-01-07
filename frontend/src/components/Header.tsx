@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import { useTranslation } from "react-i18next";
 import {UserContext} from "../context/UserContext.tsx";
 import {nullUser} from "../types/UserData.ts";
+import {logoutUser} from "../services/authService.ts";
 
 // interface Appointment {
 //     type: string;
@@ -25,10 +26,13 @@ function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
 
     const userContext = useContext(UserContext);
+
     if(!userContext){
         throw new Error("useUser must be used within a UserProvider");
     }
     const {isLoggedIn, setIsLoggedIn, setToken, user, setUser, appointments, setAppointments} = userContext// User login state
+
+
 
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
     const { t } = useTranslation();
@@ -41,11 +45,15 @@ function Header() {
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false);// Simulate logout
-        setToken(null);
-        setUser(nullUser);
-        setAppointments([]);
-        setIsExpanded(false); // Close sidebar
+        logoutUser().then(() => {
+            setIsLoggedIn(false);// Simulate logout
+            setToken(null);
+            setUser(nullUser);
+            setAppointments([]);
+            setIsExpanded(false); // Close sidebar
+        }).catch((error) => {
+            console.error("Error while logging out:", error);
+        });
     };
 
     const handleLogin = () => {

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 var express_rate_limit_1 = require("express-rate-limit");
 var authRoutes_1 = require("./routes/authRoutes");
 var userRoutes_1 = require("./routes/userRoutes");
@@ -9,10 +10,12 @@ var appointmentRoutes_1 = require("./routes/appointmentRoutes");
 var app = express();
 var port = 3001;
 var cors = require('cors');
+app.use(cookieParser());
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }));
 app.use((0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
