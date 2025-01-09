@@ -8,6 +8,10 @@ import {useContext, useEffect} from "react";
 import {getAccessToken} from "./services/authService.ts";
 import {fetchUserData} from "./services/userService.ts";
 import {getAppointmentsByUser} from "./services/appointmentService.ts";
+import HeaderLight from "./components/HeaderLight.tsx";
+import HeroImageLight from "./pages/HeroImage/HeroImageLight.tsx";
+import InformationCardsLayoutLight from "./pages/InformationCards/InformationCardsLayoutLight.tsx";
+import Contact from "./pages/CompanyPage/Contact.tsx";
 
 function App() {
 
@@ -53,16 +57,17 @@ function App() {
 
     return (
         <>
-            <Header/>
+            <HeaderLight/>
             <div>
-                <HeroImage/>
+                <HeroImageLight/>
             </div>
             {//<button onClick={() => onChangeLang("en")}>Englisch</button>
                 // <button onClick={() => onChangeLang("bs")}>Bosnisch</button>
             }
 
-            <InformationCardsLayout></InformationCardsLayout>
+            <InformationCardsLayoutLight></InformationCardsLayoutLight>
             <Carousel heading={t("headingCompanyPage")}></Carousel>
+            <Contact/>
         </>
     );
 }

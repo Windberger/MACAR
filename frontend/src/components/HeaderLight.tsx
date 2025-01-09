@@ -6,6 +6,7 @@ import LoginPageLight from "../pages/LoginPage/LoginPageLight.tsx";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "../context/UserContext.tsx";
 import { nullUser } from "../types/UserData.ts";
+import {logoutUser} from "../services/authService.ts";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
@@ -32,11 +33,15 @@ function Header() {
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false); // Simulate logout
-        setToken(null);
-        setUser(nullUser);
-        setAppointments([]);
-        setIsExpanded(false); // Close sidebar
+        logoutUser().then(() => {
+            setIsLoggedIn(false);// Simulate logout
+            setToken(null);
+            setUser(nullUser);
+            setAppointments([]);
+            setIsExpanded(false); // Close sidebar
+        }).catch((error) => {
+            console.error("Error while logging out:", error);
+        });
     };
 
     const handleLogin = () => {
