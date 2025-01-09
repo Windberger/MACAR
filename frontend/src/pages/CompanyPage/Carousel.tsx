@@ -7,7 +7,7 @@ Carousel.propTypes = {
     heading: PropTypes.string.isRequired,
 };
 
-function Carousel(heading) {
+function Carousel() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const images = [heroBackground, heroBackground, heroBackground, heroBackground, heroBackground];
@@ -22,9 +22,7 @@ function Carousel(heading) {
 
     return (
         <>
-            <h1 className={"font font-bold mt-5 mb-5 text-center"}>{heading.heading}</h1>
-
-            <div id="carousel" className="relative w-full overflow-hidden">
+            <div id="carousel" className="relative w-full overflow-hidden p-16 bg-white">
                 {/* Slides Container */}
                 <div className="relative flex items-center h-56 md:h-96">
                     {images.map((image, index) => {
@@ -52,9 +50,9 @@ function Carousel(heading) {
                 </div>
 
                 {/* Progress Bar */}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-1 bg-gray-300">
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-1 mb-10">
                     <div
-                        className="h-full bg-blue-500 transition-all duration-700"
+                        className="h-full bg-red-700 transition-all duration-700"
                         style={{ width: `${((activeIndex + 1) / images.length) * 100}%` }}
                     ></div>
                 </div>
@@ -62,16 +60,16 @@ function Carousel(heading) {
                 {/* Navigation Buttons */}
                 <button
                     onClick={prevSlide}
-                    className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white rounded-full shadow-md w-10 h-10 flex items-center justify-center focus:outline-none"
+                    className="absolute top-1/2 left-8 transform -translate-y-1/2 focus:outline-none bg-transparent"
                 >
-                    <MdOutlineArrowBackIos className="w-6 h-6 text-gray-800" />
+                    <MdOutlineArrowBackIos className="text-red-700 text-3xl" />
                 </button>
 
                 <button
                     onClick={nextSlide}
-                    className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white rounded-full shadow-md w-10 h-10 flex items-center justify-center focus:outline-none"
+                    className="absolute top-1/2 right-8 transform -translate-y-1/2 focus:outline-none bg-transparent"
                 >
-                    <MdOutlineArrowForwardIos className="w-6 h-6 text-gray-800" />
+                    <MdOutlineArrowForwardIos className="text-red-700 text-3xl" />
                 </button>
             </div>
         </>

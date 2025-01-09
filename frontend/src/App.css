@@ -7,6 +7,9 @@
     text-align: center;
     height: 100vh;
 }
+html {
+    scroll-behavior: smooth;
+}
 
 /* Header */
 .hover\:glow-red:hover {
@@ -40,12 +43,17 @@
 
 /* InformationCard */
 .bg-card {
-    background-color: rgba(36, 36, 36, 0) !important;
+    background-color: rgba(255, 12, 12, 0) !important;
 }
 
 .icon-glow {
-    box-shadow: 0 0px 50px rgb(255, 255, 255) !important;
+    box-shadow: 0 0px 50px rgb(124, 2, 2) !important;
 }
+
+.thick-glow-line {
+    box-shadow: 0 0 20px 4px rgba(124, 2, 2, 0.8); /* Glow effect */
+}
+
 
 
 
