@@ -119,13 +119,13 @@ function LoginPage() {
                 email: formData.emailOrPhone,
                 phoneNumber: null,
                 password: formData.password,
-            }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+            }).then(r => handleLogin(r.accessToken)).catch(e => handleErrors(e));
         } else if (validator.isMobilePhone(formData.emailOrPhone)) {
             loginUser({
                 email: null,
                 phoneNumber: formData.emailOrPhone,
                 password: formData.password,
-            }).then(r => handleLogin(r.token)).catch(e => handleErrors(e));
+            }).then(r => handleLogin(r.accesToken)).catch(e => handleErrors(e));
         } else {
             handleErrors("Invalid email");
         }

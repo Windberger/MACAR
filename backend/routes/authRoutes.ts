@@ -2,10 +2,14 @@ import * as express from 'express';
 import * as bcrypt from 'bcryptjs';
 import * as validator from 'validator';
 import {pool} from '../database/db';
-import {generateToken} from '../utils/jwtUtils';
+import * as jwt from 'jsonwebtoken';
 import {DB_User} from "../database/interfaces";
 
 const router = express.Router();
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const ACCESS_TOKEN_LIFETIME = process.env.ACCESS_TOKEN_LIFETIME;
+const REFRESH_TOKEN_LIFETIME = process.env.REFRESH_TOKEN_LIFETIME;
 
 // @ts-ignore
 router.post('/register', async (req: express.Request, res: express.Response) => {
@@ -77,10 +81,77 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
             return res.status(401).json({message: 'Invalid credentials'});
         }
 
-        const token = generateToken(user.user_id);
-        res.status(200).json({token});
+        const accessToken = jwt.sign({ id: user.user_id }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_LIFETIME });
+        const refreshToken = jwt.sign({ id: user.user_id }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_LIFETIME });
+
+        try {
+            await pool.query('INSERT INTO refresh_tokens (token) VALUES ($1)', [refreshToken]);
+
+
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: true, // Nur für HTTPS //TODO: wenn app fertig beides auf true setzen
+                sameSite: 'none',
+                expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 365) // 30 Tage
+            });
+
+            res.json({ accessToken });
+        } catch (error) {
+            console.error('Error while saving refresh token:', error);
+            res.sendStatus(500);
+        }
     } catch (err) {
         res.status(500).json({message: 'Error logging in'});
+    }
+});
+
+
+// @ts-ignore
+router.post('/token', async (req, res) => {
+
+    console.log("Token request received");
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.sendStatus(401);
+
+    try {
+        const result = await pool.query('SELECT * FROM refresh_tokens WHERE token = $1', [refreshToken]);
+
+        if (result.rowCount === 0){
+            return res.sendStatus(403);
+        }
+
+        jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: any, user: { id: any; }) => {
+            if (err) return res.sendStatus(403);
+
+            const accessToken = jwt.sign({ id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_LIFETIME });
+            res.json({ accessToken });
+        });
+    } catch (error) {
+        console.error('Error while checking refresh token:', error);
+        res.sendStatus(500);
+    }
+});
+
+// @ts-ignore
+router.post('/logout', async (req, res) => {
+    console.log("Logout request received");
+    const refreshToken = req.cookies.refreshToken;
+
+    if(!refreshToken) {
+        return res.sendStatus(400);
+    }
+
+    try {
+        // Lösche das Refresh Token aus der Datenbank
+        await pool.query('DELETE FROM refresh_tokens WHERE token = $1', [refreshToken]);
+
+        res.clearCookie('refreshToken');
+        res.sendStatus(204);
+
+        console.log("User logged out");
+    } catch (error) {
+        console.error('Error while deleting refresh token: ', error);
+        res.sendStatus(500);
     }
 });
 
