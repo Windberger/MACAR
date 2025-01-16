@@ -89,7 +89,11 @@ function Header() {
                 </div>
 
                 <div className="mr-3 flex items-center hover:glow-red z-10">
-                    <Hamburger toggled={isOpen} toggle={toggleSidebar} color="#000000" />
+                    <Hamburger
+                        toggled={isOpen}
+                        toggle={toggleSidebar}
+                    />
+
                 </div>
             </div>
 

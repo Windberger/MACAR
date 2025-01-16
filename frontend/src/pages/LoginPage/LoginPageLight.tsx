@@ -1,15 +1,15 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import CarImage from "../../assets/images/heroImageCar.png";
-import {FaEye, FaEyeSlash, FaCheck} from "react-icons/fa";
-import {loginUser, registerUser} from "../../services/authService.ts";
+import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
+import { loginUser, registerUser } from "../../services/authService.ts";
 import validator from "validator";
-import {Alert, Snackbar} from "@mui/material";
-import {useTranslation} from "react-i18next";
-import {UserContext} from "../../context/UserContext.tsx";
-import {fetchUserData} from "../../services/userService.ts";
-import {getAppointmentsByUser} from "../../services/appointmentService.ts";
+import { Alert, Snackbar } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { UserContext } from "../../context/UserContext.tsx";
+import { fetchUserData } from "../../services/userService.ts";
+import { getAppointmentsByUser } from "../../services/appointmentService.ts";
 
-function LoginPageLight() {
+function LoginPageDark() {
     const [isRegistering, setIsRegistering] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -21,76 +21,41 @@ function LoginPageLight() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const userContext = useContext(UserContext);
 
     if (!userContext) {
         throw new Error("UserContext must be used within a UserContextProvider");
     }
 
-    const {setIsLoggedIn, setToken, setUser, setAppointments} = userContext;
+    const { setIsLoggedIn, setToken, setUser, setAppointments } = userContext;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
-        setFormData((prev) => ({...prev, [name]: value}));
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleErrors = (e: { response: { data: { message: string } } } | string) => {
         const messageText = typeof e === "string" ? e : e.response.data.message;
-
-        if(messageText === "Token required" || messageText === "Invalid token") {
-            setErrorMessage(t("loginPageErrorToken"));
-        }
-
-        if (isRegistering) {
-            if (messageText === "Invalid email") {
-                setErrorMessage(t("loginPageErrorKey"));
-            } else if (messageText === "Invalid phone number") {
-                setErrorMessage(t("loginPageErrorInvalidKey"));
-            } else if (messageText === "Invalid password") {
-                setErrorMessage(t("loginPageErrorInvalidPassword"));
-            } else if (messageText === "All fields are required") {
-                setErrorMessage(t("loginPageErrorAllFieldsRequired"));
-            } else if (messageText === "Email is already in use") {
-                setErrorMessage(t("loginPageErrorEmailInUse"));
-            } else if (messageText === "Phone number is already in use") {
-                setErrorMessage(t("loginPageErrorPhoneNumberInUse"));
-            } else if (messageText === "Error registering user") {
-                setErrorMessage(t("loginPageErrorGeneralError"));
-            } else {
-                setErrorMessage(t("loginPageErrorGeneralError"));
-            }
-        } else {
-            if (messageText === "Not all fields provided") {
-                setErrorMessage(t("loginPageErrorAllFieldsRequired"));
-            } else if (messageText === "User not found") {
-                setErrorMessage(t("loginPageErrorUserNotFound"));
-            } else if (messageText === "Invalid credentials") {
-                setErrorMessage(t("loginPageErrorInvalidCredentials"));
-            } else if (messageText === "Error logging in") {
-                setErrorMessage(t("loginPageErrorGeneralError"));
-            } else {
-                setErrorMessage(t("loginPageErrorGeneralError"));
-            }
-        }
-
+        setErrorMessage(messageText);
         setError(true);
-    }
+    };
 
     const handleLogin = (token: string) => {
         setToken(token);
-        console.log(token)
-        fetchUserData(token).then((r) => {
-            setUser(r);
-            setIsLoggedIn(true);
+        fetchUserData(token)
+            .then((r) => {
+                setUser(r);
+                setIsLoggedIn(true);
 
-            getAppointmentsByUser(token).then((appointments) => {
-                setAppointments(appointments);
-            }).catch(e => handleErrors(e));
-
-            //TODO: Continue to the next page
-        }).catch(e => handleErrors(e));
-    }
+                getAppointmentsByUser(token)
+                    .then((appointments) => {
+                        setAppointments(appointments);
+                    })
+                    .catch((e) => handleErrors(e));
+            })
+            .catch((e) => handleErrors(e));
+    };
 
     const login = () => {
         if (validator.isEmail(formData.emailOrPhone)) {
@@ -98,22 +63,26 @@ function LoginPageLight() {
                 email: formData.emailOrPhone,
                 phoneNumber: null,
                 password: formData.password,
-            }).then(r => handleLogin(r.accessToken)).catch(e => handleErrors(e));
+            })
+                .then((r) => handleLogin(r.accessToken))
+                .catch((e) => handleErrors(e));
         } else if (validator.isMobilePhone(formData.emailOrPhone)) {
             loginUser({
                 email: null,
                 phoneNumber: formData.emailOrPhone,
                 password: formData.password,
-            }).then(r => handleLogin(r.accessToken)).catch(e => handleErrors(e));
+            })
+                .then((r) => handleLogin(r.accessToken))
+                .catch((e) => handleErrors(e));
         } else {
             handleErrors("Invalid email");
         }
-    }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if(!formData.emailOrPhone || !formData.password) {
+        if (!formData.emailOrPhone || !formData.password) {
             handleErrors("All fields are required");
             return;
         }
@@ -126,7 +95,9 @@ function LoginPageLight() {
                     email: formData.emailOrPhone,
                     phone_number: null,
                     password: formData.password,
-                }).then(() => login()).catch(e => handleErrors(e));
+                })
+                    .then(() => login())
+                    .catch((e) => handleErrors(e));
             } else if (validator.isMobilePhone(formData.emailOrPhone)) {
                 registerUser({
                     first_name: formData.firstName,
@@ -134,7 +105,9 @@ function LoginPageLight() {
                     email: null,
                     phone_number: formData.emailOrPhone,
                     password: formData.password,
-                }).then(() => login()).catch(e => handleErrors(e));
+                })
+                    .then(() => login())
+                    .catch((e) => handleErrors(e));
             } else {
                 handleErrors("Invalid email");
             }
@@ -148,8 +121,8 @@ function LoginPageLight() {
     };
 
     return (
-        <div className="flex h-screen bg-white">
-            <div className="w-1/2 flex flex-col justify-center items-center bg-gray-100 text-black">
+        <div className="flex h-screen bg-black">
+            <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black text-white">
                 <h2 className="text-2xl font-bold mb-6">
                     {isRegistering ? "Registrieren" : "Anmelden"}
                 </h2>
@@ -162,7 +135,7 @@ function LoginPageLight() {
                                 value={formData.firstName}
                                 onChange={handleChange}
                                 placeholder="Vorname"
-                                className="w-1/2 p-3 bg-gray-100 text-gray-800 placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700"
+                                className="w-1/2 p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                             />
                             <input
                                 type="text"
@@ -170,7 +143,7 @@ function LoginPageLight() {
                                 value={formData.lastName}
                                 onChange={handleChange}
                                 placeholder="Nachname"
-                                className="w-1/2 p-3 bg-gray-100 text-gray-800 placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700"
+                                className="w-1/2 p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                             />
                         </div>
                     )}
@@ -180,7 +153,7 @@ function LoginPageLight() {
                         value={formData.emailOrPhone}
                         onChange={handleChange}
                         placeholder="E-Mail oder Telefonnummer"
-                        className="w-full p-3 bg-gray-100 text-gray-800 placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700"
+                        className="w-full p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                     <div className="relative">
                         <input
@@ -189,21 +162,21 @@ function LoginPageLight() {
                             value={formData.password}
                             onChange={handleChange}
                             placeholder="Passwort"
-                            className="w-full p-3 bg-gray-100 text-gray-800 placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700"
+                            className="w-full p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
                         <span
                             className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                             onClick={() => setShowPassword(!showPassword)}
                         >
-                            {showPassword ? <FaEyeSlash/> : <FaEye/>}
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
                         {isPasswordValid(formData.password) && (
-                            <span className="absolute inset-y-0 right-10 flex items-center text-red-500">
-                                <FaCheck/>
+                            <span className="absolute inset-y-0 right-10 flex items-center text-green-400">
+                                <FaCheck />
                             </span>
                         )}
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-400 mt-1">
                         Mind. 8 Zeichen, enthält Großbuchstabe und Zahl.
                     </p>
                     <button
@@ -213,24 +186,24 @@ function LoginPageLight() {
                         {isRegistering ? "Registrieren" : "Anmelden"}
                     </button>
                 </form>
-                <p className="mt-4 text-sm text-gray-600">
+                <p className="mt-4 text-sm text-gray-400">
                     {isRegistering ? "Bereits ein Konto?" : "Noch kein Konto?"}{" "}
                     <button
                         type="button"
                         onClick={() => setIsRegistering(!isRegistering)}
-                        className="hover:underline bg-transparent focus:outline-none"
+                        className="hover:underline text-red-500 focus:outline-none"
                     >
                         {isRegistering ? "Anmelden" : "Registrieren"}
                     </button>
                 </p>
             </div>
-            <div className="w-1/2 flex flex-col items-center justify-center bg-gray-300 text-black">
+            <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-gray-800 text-white">
                 <img
                     src={CarImage}
                     alt="Hero Car"
                     className="w-full h-full object-cover opacity-80"
                 />
-                <div className="absolute text-center text-white">
+                <div className="absolute text-center">
                     <h2 className="text-3xl font-bold">
                         {isRegistering ? "Willkommen bei der Registrierung" : "Willkommen zurück"}
                     </h2>
@@ -245,7 +218,8 @@ function LoginPageLight() {
                 <Snackbar
                     open={error}
                     autoHideDuration={6000}
-                    onClose={() => setError(false)}>
+                    onClose={() => setError(false)}
+                >
                     <Alert severity="error">{errorMessage}</Alert>
                 </Snackbar>
             </div>
@@ -253,4 +227,4 @@ function LoginPageLight() {
     );
 }
 
-export default LoginPageLight;
+export default LoginPageDark;
