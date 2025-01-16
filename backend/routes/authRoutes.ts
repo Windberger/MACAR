@@ -4,12 +4,17 @@ import * as validator from 'validator';
 import {pool} from '../database/db';
 import * as jwt from 'jsonwebtoken';
 import {DB_User} from "../database/interfaces";
+import { sendEmailVerification } from '../utils/verificationEmail';
+
 
 const router = express.Router();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const VERIFY_TOKEN_SECRET = process.env.VERIFY_TOKEN_SECRET;
 const ACCESS_TOKEN_LIFETIME = process.env.ACCESS_TOKEN_LIFETIME;
 const REFRESH_TOKEN_LIFETIME = process.env.REFRESH_TOKEN_LIFETIME;
+const VERIFY_TOKEN_LIFETIME = process.env.VERIFY_TOKEN_LIFETIME;
+
 
 // @ts-ignore
 router.post('/register', async (req: express.Request, res: express.Response) => {
@@ -35,13 +40,14 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    let user: { user_id: any; };
     try {
         const result = await pool.query(
             "INSERT INTO user_account (first_name, last_name, email, phone_number, password) VALUES ($1, $2, $3, $4, $5) RETURNING user_id",
             [first_name, last_name, email, phone_number, hashedPassword]
         );
         res.status(201).json({userId: result.rows[0].id});
+         user = result.rows[0];
     } catch (err: any) {
 
         //Duplicate key error
@@ -55,6 +61,12 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
 
         res.status(500).json({message: 'Error registering user'});
     }
+    const verificationToken = jwt.sign({id: user.user_id}, VERIFY_TOKEN_SECRET, {expiresIn: VERIFY_TOKEN_LIFETIME});
+
+
+    await sendEmailVerification(email, verificationToken);
+
+
 });
 
 // @ts-ignore
@@ -81,8 +93,8 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
             return res.status(401).json({message: 'Invalid credentials'});
         }
 
-        const accessToken = jwt.sign({ id: user.user_id }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_LIFETIME });
-        const refreshToken = jwt.sign({ id: user.user_id }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_LIFETIME });
+        const accessToken = jwt.sign({id: user.user_id}, ACCESS_TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_LIFETIME});
+        const refreshToken = jwt.sign({id: user.user_id}, REFRESH_TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_LIFETIME});
 
         try {
             await pool.query('INSERT INTO refresh_tokens (token) VALUES ($1)', [refreshToken]);
@@ -95,7 +107,7 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 365) // 30 Tage
             });
 
-            res.json({ accessToken });
+            res.json({accessToken});
         } catch (error) {
             console.error('Error while saving refresh token:', error);
             res.sendStatus(500);
@@ -116,15 +128,15 @@ router.post('/token', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM refresh_tokens WHERE token = $1', [refreshToken]);
 
-        if (result.rowCount === 0){
+        if (result.rowCount === 0) {
             return res.sendStatus(403);
         }
 
         jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: any, user: { id: any; }) => {
             if (err) return res.sendStatus(403);
 
-            const accessToken = jwt.sign({ id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_LIFETIME });
-            res.json({ accessToken });
+            const accessToken = jwt.sign({id: user.id}, ACCESS_TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_LIFETIME});
+            res.json({accessToken});
         });
     } catch (error) {
         console.error('Error while checking refresh token:', error);
@@ -137,7 +149,7 @@ router.post('/logout', async (req, res) => {
     console.log("Logout request received");
     const refreshToken = req.cookies.refreshToken;
 
-    if(!refreshToken) {
+    if (!refreshToken) {
         return res.sendStatus(400);
     }
 
@@ -154,5 +166,17 @@ router.post('/logout', async (req, res) => {
         res.sendStatus(500);
     }
 });
+
+// router.get('/verify-email', async (req, res) => {
+//     const {token} = req.query;
+//
+//     if (token != ) {
+//         return res.status(400).json({message: 'Invalid token'});
+//     }
+//
+//     res.status(200).json({message: 'Email verified'});
+//
+//
+// });
 
 export default router;
