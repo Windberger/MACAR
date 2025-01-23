@@ -65,7 +65,9 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
 
     // TODO: call function to send email
 
-    await sendEmailVerification(email, verificationToken);
+    //
+    // console.log("sendEmaiil")
+    // await sendEmailVerification(email, verificationToken);
 
 
 });
@@ -167,6 +169,11 @@ router.post('/logout', async (req, res) => {
         res.sendStatus(500);
     }
 });
+
+router.post('/verify-email', req => {
+
+    console.log("Verify Email!!!!!!")
+})
 
 // TODO: user clicked link in email and now check if it is the same token as in the db
 
