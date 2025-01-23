@@ -63,6 +63,7 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
     }
     const verificationToken = jwt.sign({id: user.user_id}, VERIFY_TOKEN_SECRET, {expiresIn: VERIFY_TOKEN_LIFETIME});
 
+    // TODO: call function to send email
 
     await sendEmailVerification(email, verificationToken);
 
@@ -166,6 +167,8 @@ router.post('/logout', async (req, res) => {
         res.sendStatus(500);
     }
 });
+
+// TODO: user clicked link in email and now check if it is the same token as in the db
 
 // router.get('/verify-email', async (req, res) => {
 //     const {token} = req.query;
