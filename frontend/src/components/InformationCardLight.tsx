@@ -5,15 +5,16 @@ interface IInformationCard {
     title: string;
     description: string;
     left: boolean;
+    className?: string; // Add this line
 }
 
-function InformationCardLight({ title, description, left }: IInformationCard) {
+function InformationCardLight({ title, description, left, className }: IInformationCard) {
     const styleHeader = "text-black mt-5 " + (left ? "text-left" : "text-right");
     const parts = title.split(";");
 
     return (
         <Card
-            className="bg-white mt-5 mb-4 w-full h-full p-5 border-transparent"
+            className={`bg-white mt-5 mb-4 w-full h-full p-5 border-transparent ${className}`}
             style={{ borderRadius: "30px" }}
             elevation={0}
         >

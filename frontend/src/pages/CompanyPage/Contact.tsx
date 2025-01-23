@@ -15,6 +15,8 @@ function Contact() {
         { weekDay: 'Saturday', startTime: '08:00', endTime: '17:00' },
     ];
 
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+
     return (
         <div id="contact" className="flex flex-col md:flex-row justify-center items-start md:items-center p-6 bg-gray-100 text-gray-800 space-y-4 md:space-y-0 md:space-x-6">
             {/* Left Section */}
@@ -66,7 +68,7 @@ function Contact() {
                     <h3 className="text-lg font-bold">BUSINESS HOURS</h3>
                     <ul className="text-sm space-y-1">
                         {businessHours.map((hour, index) => (
-                            <li key={index} className="flex justify-between">
+                            <li key={index} className={`flex justify-between ${hour.weekDay === today ? 'text-red-700' : ''}`}>
                                 <span>{hour.weekDay}</span>
                                 <span className="ml-2">{hour.startTime}{hour.endTime && `–${hour.endTime}`}</span>
                             </li>

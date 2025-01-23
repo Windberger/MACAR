@@ -75,7 +75,7 @@ function Header() {
                     <img src={logo} alt="Logo" className="h-14 w-14" />
                 </div>
 
-                <div className="flex space-x-8">
+                <div className="hidden md:flex space-x-8">
                     <a href="#wash-detailing" className="text-black hover:text-red-700">Wash and Detailing</a>
                     <a href="#mechanic" className="text-black hover:text-red-700">Mechanic</a>
                     <a href="#carousel" className="text-black hover:text-red-700">About Us</a>
