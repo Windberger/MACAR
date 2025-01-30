@@ -1,13 +1,16 @@
 import * as nodemailer from 'nodemailer';
 
+
+// TODO: funktioniert nicht warten bis eigene Domain
 export async function sendEmailVerification(customerMail: string, token: string) {
     const transporter = nodemailer.createTransport({
-        service: 'Yahoo',
-        secure: false,
+
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
+        debug: false,
+        logger: true
     })
 
     const verificationUrl = process.env.VERIFICATION_URL + token;
@@ -21,6 +24,15 @@ export async function sendEmailVerification(customerMail: string, token: string)
 
     };
 
-    await transporter.sendMail(mailData);
+    // await transporter.sendMail(mailData);
+
+
+    transporter.sendMail(mailData, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 
 }
