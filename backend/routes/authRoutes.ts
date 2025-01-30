@@ -61,11 +61,9 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
 
         res.status(500).json({message: 'Error registering user'});
     }
-    const verificationToken = jwt.sign({id: user.user_id}, VERIFY_TOKEN_SECRET, {expiresIn: VERIFY_TOKEN_LIFETIME});
-
     // TODO: call function to send email
-
-    await sendEmailVerification(email, verificationToken);
+    //const verificationToken = jwt.sign({id: user.user_id}, VERIFY_TOKEN_SECRET, {expiresIn: VERIFY_TOKEN_LIFETIME});
+    //await sendEmailVerification(email, verificationToken);
 
 
 });
