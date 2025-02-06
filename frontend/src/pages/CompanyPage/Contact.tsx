@@ -3,18 +3,19 @@ import { IOpeningTimes } from "../../interfaces/IOpeningTimes.ts";
 import { BsInstagram } from "react-icons/bs";
 import { SiGooglemaps } from "react-icons/si";
 import { useInView } from "react-intersection-observer";
+import {t} from "i18next";
 
 function Contact() {
     const address = 'Stjena bb, 77224\nBosnia and Herzegovina';
     const phone = '+387 61 674285';
     const businessHours: IOpeningTimes[] = [
-        { weekDay: 'Sunday', startTime: '08:00', endTime: '14:00' },
-        { weekDay: 'Monday', startTime: '08:00', endTime: '17:00' },
-        { weekDay: 'Tuesday', startTime: '08:00', endTime: '17:00' },
-        { weekDay: 'Wednesday', startTime: '08:00', endTime: '17:00' },
-        { weekDay: 'Thursday', startTime: '08:00', endTime: '17:00' },
-        { weekDay: 'Friday', startTime: 'Closed', endTime: '' },
-        { weekDay: 'Saturday', startTime: '08:00', endTime: '17:00' },
+        { weekDay: t("contactWeekdaySunday"), startTime: '08:00', endTime: '14:00' },
+        { weekDay: t("contactWeekdayMonday"), startTime: '08:00', endTime: '17:00' },
+        { weekDay: t("contactWeekdayTuesday"), startTime: '08:00', endTime: '17:00' },
+        { weekDay: t("contactWeekdayWednesday"), startTime: '08:00', endTime: '17:00' },
+        { weekDay: t("contactWeekdayThursday"), startTime: '08:00', endTime: '17:00' },
+        { weekDay: t("contactWeekdayFriday"), startTime: 'Closed', endTime: '' },
+        { weekDay: t("contactWeekdaySaturday"), startTime: '08:00', endTime: '17:00' },
     ];
 
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
@@ -37,17 +38,16 @@ function Contact() {
                 transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
                 className="md:w-1/2 text-left px-4 max-w-md"
             >
-                <h2 className="text-2xl font-bold mb-2 text-red-700">GET IN TOUCH</h2>
+                <h2 className="text-2xl font-bold mb-2 text-red-700">{t("contactGetInTouchTitle")}</h2>
                 <p className="text-lg font-medium mb-3">
-                    Hey! We are looking forward to starting a project with you!
+                    {t("contactText1")}
                 </p>
                 <p className="text-sm text-gray-600 mb-3">
-                    Etiam sit amet convallis erat – class aptent taciti sociosqu ad litora torquent per conubia!
-                    Maecenas gravida lacus. Lorem etiam sit amet convallis erat.
+                    {t("contactText2")}
                 </p>
 
                 <div>
-                    <h3 className="text-lg font-bold">CALL US</h3>
+                    <h3 className="text-lg font-bold">{t("contactTelephoneInformationTitle")}</h3>
                     <p className="text-sm">{phone}</p>
                 </div>
 
@@ -68,11 +68,11 @@ function Contact() {
                 className="md:w-1/2 text-left px-4 max-w-md space-y-3"
             >
                 <div>
-                    <h3 className="text-lg font-bold">LOCATION</h3>
+                    <h3 className="text-lg font-bold">{t("contactLocationTitle")}</h3>
                     <p className="text-sm whitespace-pre-line">{address}</p>
                 </div>
                 <div>
-                    <h3 className="text-lg font-bold">BUSINESS HOURS</h3>
+                    <h3 className="text-lg font-bold">{t("contactOpeningTimesTitle")}</h3>
                     <ul className="text-sm space-y-1">
                         {businessHours.map((hour, index) => (
                             <li key={index} className={`flex justify-between ${hour.weekDay === today ? 'text-red-700' : ''}`}>
