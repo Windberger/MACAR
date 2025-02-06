@@ -56,7 +56,7 @@ function App() {
 
 
     return (
-        <>
+        <div className={"bg-white"}>
             <HeaderLight/>
             <div>
                 <HeroImageLight/>
@@ -68,7 +68,7 @@ function App() {
             <InformationCardsLayoutLight></InformationCardsLayoutLight>
             <Carousel heading={t("headingCompanyPage")}></Carousel>
             <Contact/>
-        </>
+        </div>
     );
 }
 

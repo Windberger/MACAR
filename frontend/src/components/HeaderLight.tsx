@@ -116,12 +116,6 @@ function Header() {
                                     <div className="grid grid-cols-4 gap-2 justify-items-center">
                                         {icons}
                                     </div>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded w-full mt-8 p-4 mb-4"
-                                    >
-                                        Log Out
-                                    </button>
                                 </div>
                             </div>
                         ) : (

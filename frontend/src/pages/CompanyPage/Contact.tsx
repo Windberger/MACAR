@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import { IOpeningTimes } from "../../interfaces/IOpeningTimes.ts";
 import { BsInstagram } from "react-icons/bs";
 import { SiGooglemaps } from "react-icons/si";
+import { useInView } from "react-intersection-observer";
 
 function Contact() {
     const address = 'Stjena bb, 77224\nBosnia and Herzegovina';
@@ -16,11 +18,25 @@ function Contact() {
     ];
 
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+
 
     return (
-        <div id="contact" className="flex flex-col md:flex-row justify-center items-start md:items-center p-6 bg-gray-100 text-gray-800 space-y-4 md:space-y-0 md:space-x-6">
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            id="contact"
+            className="flex flex-col md:flex-row justify-center items-start md:items-center p-6 bg-gray-100 text-gray-800 space-y-4 md:space-y-0 md:space-x-6"
+        >
             {/* Left Section */}
-            <div className="md:w-1/2 text-left px-4 max-w-md">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+                className="md:w-1/2 text-left px-4 max-w-md"
+            >
                 <h2 className="text-2xl font-bold mb-2 text-red-700">GET IN TOUCH</h2>
                 <p className="text-lg font-medium mb-3">
                     Hey! We are looking forward to starting a project with you!
@@ -36,30 +52,21 @@ function Contact() {
                 </div>
 
                 <div className="flex space-x-4 mt-4">
-                    {/* Instagram Icon */}
-                    <a
-                        href="https://www.instagram.com/macar.ba?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-red-700"
-                    >
-                        <BsInstagram size={24}/>
+                    <a href="https://www.instagram.com/macar.ba" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-red-700">
+                        <BsInstagram size={24} />
                     </a>
-
-                    {/* Google Maps Icon */}
-                    <a
-                        href="https://maps.app.goo.gl/tq3WHoafEfVPmujB6"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-red-700"
-                    >
-                        <SiGooglemaps size={24}/>
+                    <a href="https://maps.app.goo.gl/tq3WHoafEfVPmujB6" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-red-700">
+                        <SiGooglemaps size={24} />
                     </a>
                 </div>
-            </div>
-
+            </motion.div>
             {/* Right Section */}
-            <div className="md:w-1/2 text-left px-4 max-w-md space-y-3">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
+                className="md:w-1/2 text-left px-4 max-w-md space-y-3"
+            >
                 <div>
                     <h3 className="text-lg font-bold">LOCATION</h3>
                     <p className="text-sm whitespace-pre-line">{address}</p>
@@ -75,8 +82,8 @@ function Contact() {
                         ))}
                     </ul>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
