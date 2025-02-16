@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
 import carMechanic from "../../assets/images/carmechanic.jpg";
+import buero from "../../assets/images/buero.jpg";
+import objekt from "../../assets/images/objekat.jpg";
 
-const images = [carMechanic, carMechanic, carMechanic, carMechanic, carMechanic];
+const images = [carMechanic, buero, carMechanic, objekt, carMechanic];
 
 const Carousel = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -33,6 +35,7 @@ const Carousel = () => {
             className="relative w-full bg-gray-100 overflow-hidden"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
+            id="carousel"
         >
             {/* Image Container */}
             <div className="relative flex items-center justify-center h-64 sm:h-72 md:h-96 lg:h-[400px]">
