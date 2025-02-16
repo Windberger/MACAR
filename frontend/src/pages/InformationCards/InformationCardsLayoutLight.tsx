@@ -4,6 +4,8 @@ import InformationCardLight from "../../components/InformationCardLight.tsx";
 import carwash from "../../assets/images/carwash.jpg";
 import carmechanic from "../../assets/images/carmechanic.jpg";
 import { useInView } from "react-intersection-observer";
+import {BiSolidCarWash, BiSolidCarMechanic} from "react-icons/bi";
+import {FaCar} from "react-icons/fa";
 
 function InformationCardsLayoutLight() {
     const { t } = useTranslation();
@@ -29,6 +31,7 @@ function InformationCardsLayoutLight() {
                     title={t("firstInformationCardTitle")}
                     description={t("firstInformationCardContent")}
                     className="shadow-none sm:shadow-none md:text-lg"
+                    icon={<BiSolidCarWash size={48} color="#b91c1c" />}
                 />
                 <img src={carwash} alt="Car Wash" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
             </motion.div>
@@ -45,8 +48,27 @@ function InformationCardsLayoutLight() {
                     title={t("secondInformationCardTitle")}
                     description={t("secondInformationCardContent")}
                     className="shadow-none sm:shadow-none md:text-lg"
+                    icon={<BiSolidCarMechanic size={48} color="#b91c1c" />}
                 />
             </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
+                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-full space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 rounded-none sm:rounded-xl shadow-lg"
+                id="mechanic"
+            >
+                <InformationCardLight
+                    left={true}
+                    title={t("thirdInformationCardTitle")}
+                    description={t("thirdInformationCardContent")}
+                    className="shadow-none sm:shadow-none md:text-lg"
+                    icon={<FaCar size={48} color="#b91c1c" />}
+                />
+                <img src={carmechanic} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
+            </motion.div>
+
             <div className="mb-12"></div>
         </motion.div>
     );

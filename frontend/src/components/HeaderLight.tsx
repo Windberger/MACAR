@@ -76,10 +76,10 @@ function Header() {
                 </div>
 
                 <div className="hidden md:flex space-x-8">
-                    <a href="#wash-detailing" className="text-black hover:text-red-700">Wash and Detailing</a>
-                    <a href="#mechanic" className="text-black hover:text-red-700">Mechanic</a>
-                    <a href="#carousel" className="text-black hover:text-red-700">About Us</a>
-                    <a href="#contact" className="text-black hover:text-red-700">Contact</a>
+                    <a href="#wash-detailing" className="text-black hover:text-red-700">{t("headerWashAndDetailing")}</a>
+                    <a href="#mechanic" className="text-black hover:text-red-700">{t("headerMechanic")}</a>
+                    <a href="#carousel" className="text-black hover:text-red-700">{t("headerAboutUs")}</a>
+                    <a href="#contact" className="text-black hover:text-red-700">{t("headerContact")}</a>
                 </div>
 
                 <div className="mr-6 flex items-center hover:glow-red z-10">
@@ -149,7 +149,7 @@ function Header() {
                                                 onClick={handleLogout}
                                                 className="hover:bg-red-700 text-white py-3 rounded w-full mt-8 p-4 mb-4"
                                             >
-                                                Logout
+                                                {t("headerLogout")}
                                             </button>
                                         </div>
                                     </div>
@@ -160,7 +160,7 @@ function Header() {
                                         onClick={handleLogin}
                                         className="bg-red-600 hover:bg-red-700 text-white py-3 rounded w-full p-4 mb-4"
                                     >
-                                        Login
+                                        {t("headerLogin")}
                                     </button>
                                 </div>
                             )}

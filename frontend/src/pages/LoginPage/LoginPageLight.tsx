@@ -9,7 +9,7 @@ import { UserContext } from "../../context/UserContext.tsx";
 import { fetchUserData } from "../../services/userService.ts";
 import { getAppointmentsByUser } from "../../services/appointmentService.ts";
 
-function LoginPageDark() {
+function LoginPageLight() {
     const [isRegistering, setIsRegistering] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -36,8 +36,65 @@ function LoginPageDark() {
     };
 
     const handleErrors = (e: { response: { data: { message: string } } } | string) => {
+        /*
+            Register Error Messages:
+                400: All fields are required
+                400: Invalid email
+                400: Invalid phone number
+                400: Invalid password
+                409: Email is already in use
+                409: Phone number is already in use
+                500: Error registering user
+            Login Error Messages:
+                400: Not all fields provided
+                404: User not found
+                401: Invalid credentials
+                500: Error logging in
+            Get User / Appointment:
+                401: Invalid token
+                401: Token required
+         */
+
         const messageText = typeof e === "string" ? e : e.response.data.message;
-        setErrorMessage(messageText);
+
+        if(messageText === "Token required" || messageText === "Invalid token") {
+            setErrorMessage(t("loginPageErrorToken"));
+        }
+
+        if (isRegistering) {
+            if (messageText === "Invalid email") {
+                setErrorMessage(t("loginPageErrorInvalidKey"));
+            } else if (messageText === "Invalid phone number") {
+                setErrorMessage(t("loginPageErrorInvalidKey"));
+            } else if (messageText === "Invalid password") {
+                setErrorMessage(t("loginPageErrorInvalidPassword"));
+            } else if (messageText === "All fields are required") {
+                setErrorMessage(t("loginPageErrorAllFieldsRequired"));
+            } else if (messageText === "Email is already in use") {
+                setErrorMessage(t("loginPageErrorEmailInUse"));
+            } else if (messageText === "Phone number is already in use") {
+                setErrorMessage(t("loginPageErrorPhoneNumberInUse"));
+            } else if (messageText === "Error registering user") {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            } else {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            }
+        } else {
+            if (messageText === "Invalid email") {
+                setErrorMessage(t("loginPageErrorInvalidKey"));
+            } else if (messageText === "Not all fields provided") {
+                setErrorMessage(t("loginPageErrorAllFieldsRequired"));
+            } else if (messageText === "User not found") {
+                setErrorMessage(t("loginPageErrorUserNotFound"));
+            } else if (messageText === "Invalid credentials") {
+                setErrorMessage(t("loginPageErrorInvalidCredentials"));
+            } else if (messageText === "Error logging in") {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            } else {
+                setErrorMessage(t("loginPageErrorGeneralError"));
+            }
+        }
+
         setError(true);
     };
 
@@ -124,7 +181,7 @@ function LoginPageDark() {
         <div className="flex h-screen bg-black">
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black text-white">
                 <h2 className="text-2xl font-bold mb-6">
-                    {isRegistering ? "Registrieren" : "Anmelden"}
+                    {isRegistering ? t("loginPageIsRegistering") : t("loginPageIsLoggingIn")}
                 </h2>
                 <form className="space-y-4 w-72" onSubmit={handleSubmit}>
                     {isRegistering && (
@@ -134,7 +191,7 @@ function LoginPageDark() {
                                 name="firstName"
                                 value={formData.firstName}
                                 onChange={handleChange}
-                                placeholder="Vorname"
+                                placeholder={t("loginPageFormFirstName")}
                                 className="w-1/2 p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                             />
                             <input
@@ -142,7 +199,7 @@ function LoginPageDark() {
                                 name="lastName"
                                 value={formData.lastName}
                                 onChange={handleChange}
-                                placeholder="Nachname"
+                                placeholder={t("loginPageFormLastName")}
                                 className="w-1/2 p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                             />
                         </div>
@@ -152,7 +209,7 @@ function LoginPageDark() {
                         name="emailOrPhone"
                         value={formData.emailOrPhone}
                         onChange={handleChange}
-                        placeholder="E-Mail oder Telefonnummer"
+                        placeholder={t("loginPageFormEmail")}
                         className="w-full p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                     <div className="relative">
@@ -161,7 +218,7 @@ function LoginPageDark() {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            placeholder="Passwort"
+                            placeholder={t("loginPageFormPassword")}
                             className="w-full p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
                         <span
@@ -177,23 +234,23 @@ function LoginPageDark() {
                         )}
                     </div>
                     <p className="text-sm text-gray-400 mt-1">
-                        Mind. 8 Zeichen, enthält Großbuchstabe und Zahl.
+                        {t("loginPageFormPasswordRequirements")}
                     </p>
                     <button
                         type="submit"
                         className="w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800"
                     >
-                        {isRegistering ? "Registrieren" : "Anmelden"}
+                        {isRegistering ? t("loginPageIsRegistering") : t("loginPageIsLoggingIn")}
                     </button>
                 </form>
                 <p className="mt-4 text-sm text-gray-400">
-                    {isRegistering ? "Bereits ein Konto?" : "Noch kein Konto?"}{" "}
+                    {isRegistering ? t("loginPageFormChangeToLogin") : t("loginPageFormChangeToRegister")}
                     <button
                         type="button"
                         onClick={() => setIsRegistering(!isRegistering)}
                         className="hover:underline text-red-500 focus:outline-none"
                     >
-                        {isRegistering ? "Anmelden" : "Registrieren"}
+                        {isRegistering ? t("loginPageIsLoggingIn") : t("loginPageIsRegistering")}
                     </button>
                 </p>
             </div>
@@ -205,12 +262,10 @@ function LoginPageDark() {
                 />
                 <div className="absolute text-center">
                     <h2 className="text-3xl font-bold">
-                        {isRegistering ? "Willkommen bei der Registrierung" : "Willkommen zurück"}
+                        {isRegistering ? t("loginPageHeaderRegistering") : t("loginPageHeaderLogin")}
                     </h2>
                     <p>
-                        {isRegistering
-                            ? "Erstellen Sie ein Konto, um alle Vorteile zu nutzen."
-                            : "Melden Sie sich an, um fortzufahren."}
+                        {isRegistering ? t("loginPageDescriptionRegister") : t("loginPageDescriptionLogin")}
                     </p>
                 </div>
             </div>
@@ -227,4 +282,4 @@ function LoginPageDark() {
     );
 }
 
-export default LoginPageDark;
+export default LoginPageLight;

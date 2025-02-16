@@ -16,18 +16,18 @@ import Contact from "./pages/CompanyPage/Contact.tsx";
 function App() {
 
     const {i18n, t} = useTranslation();
-
     const userContext = useContext(UserContext);
-
     if (!userContext) {
         throw new Error("UserContext not found");
     }
-
     const {setToken, setUser, setAppointments, setIsLoggedIn} = userContext;
 
-    const onChangeLang = (lang: string) => {
-        i18n.changeLanguage(lang);
-    };
+
+    useEffect(() => {
+        const userLang = navigator.language || "en";
+        i18n.changeLanguage(userLang);
+    }, [i18n]);
+
 
 
     useEffect(() => {

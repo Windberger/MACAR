@@ -1,14 +1,13 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
-import { BiSolidCarWash, BiSolidCarMechanic } from "react-icons/bi";
-
 interface IInformationCard {
     title: string;
     description: string;
     left: boolean;
-    className?: string; // Add this line
+    className?: string;
+    icon: JSX.Element; // Add this line
 }
 
-function InformationCardLight({ title, description, left, className }: IInformationCard) {
+function InformationCardLight({ title, description, left, className, icon }: IInformationCard) {
     const styleHeader = "text-black mt-5 " + (left ? "text-left" : "text-right");
     const parts = title.split(";");
 
@@ -25,7 +24,7 @@ function InformationCardLight({ title, description, left, className }: IInformat
                         <div className="text-3xl font-bold flex flex-col items-center mb-5">
                             <div
                                 className="mb-4 bg-opacity-100 border rounded-3xl border-transparent p-4 flex justify-center">
-                                {left ? <BiSolidCarWash size={48} color="#b91c1c" /> : <BiSolidCarMechanic size={48} color="#b91c1c" />}
+                                {icon}
                             </div>
                         </div>
                         <div className={"text-3xl font-bold flex flex-col text-black"}>

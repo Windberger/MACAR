@@ -14,7 +14,7 @@ function InformationCard({ title, description, left }: IInformationCard) {
 
     return (
         <Card
-            className="bg-card mt-5 mb-4 w-full h-full p-5 border-transparent"
+            className="bg-card mt-5 mb-4  h-full p-5 border-transparent w-4/5"
             style={{ borderRadius: "30px" }}
             elevation={0}
         >
