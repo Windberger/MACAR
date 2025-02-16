@@ -1,20 +1,22 @@
-import { Card, CardContent, CardHeader } from "@mui/material";
+import {Card, CardContent, CardHeader} from "@mui/material";
+
 interface IInformationCard {
     title: string;
     description: string;
     left: boolean;
     className?: string;
-    icon: JSX.Element; // Add this line
+    icon: JSX.Element;
+    button?: JSX.Element
 }
 
-function InformationCardLight({ title, description, left, className, icon }: IInformationCard) {
+function InformationCardLight({title, description, left, className, icon, button}: IInformationCard) {
     const styleHeader = "text-black mt-5 " + (left ? "text-left" : "text-right");
     const parts = title.split(";");
 
     return (
         <Card
             className={`bg-white mt-5 mb-4 w-full h-full p-5 border-transparent ${className}`}
-            style={{ borderRadius: "30px" }}
+            style={{borderRadius: "30px"}}
             elevation={0}
         >
             <CardHeader
@@ -40,7 +42,7 @@ function InformationCardLight({ title, description, left, className, icon }: IIn
             />
             <CardContent className="text-black mb-4">
                 <div className="text-xl text-justify">{description}</div>
-            </CardContent>
+                {button}            </CardContent>
         </Card>
     );
 }

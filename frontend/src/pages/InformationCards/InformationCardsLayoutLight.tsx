@@ -24,7 +24,7 @@ function InformationCardsLayoutLight() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-full space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 mt-12 rounded-none sm:rounded-xl shadow-lg"
+                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-11/12 space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 mt-12 rounded-none sm:rounded-xl shadow-lg"
             >
                 <InformationCardLight
                     left={true}
@@ -39,7 +39,7 @@ function InformationCardsLayoutLight() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
-                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-full space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 rounded-none sm:rounded-xl shadow-lg"
+                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-11/12 space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 rounded-none sm:rounded-xl shadow-lg"
                 id="mechanic"
             >
                 <img src={carmechanic} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
@@ -56,7 +56,7 @@ function InformationCardsLayoutLight() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
-                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-full space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 rounded-none sm:rounded-xl shadow-lg"
+                className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-1/2 md:w-11/12 space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 rounded-none sm:rounded-xl shadow-lg"
                 id="mechanic"
             >
                 <InformationCardLight
@@ -65,6 +65,7 @@ function InformationCardsLayoutLight() {
                     description={t("thirdInformationCardContent")}
                     className="shadow-none sm:shadow-none md:text-lg"
                     icon={<FaCar size={48} color="#b91c1c" />}
+                    button={<button className={"accent-red-800"} />}
                 />
                 <img src={carmechanic} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
             </motion.div>
