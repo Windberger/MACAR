@@ -6,18 +6,19 @@ import LoginPageLight from "../pages/LoginPage/LoginPageLight.tsx";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "../context/UserContext.tsx";
 import { nullUser } from "../types/UserData.ts";
-import {logoutUser} from "../services/authService.ts";
+import { logoutUser } from "../services/authService.ts";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
+    const [showDropdown, setShowDropdown] = useState(false); // Dropdown menu state
 
     const userContext = useContext(UserContext);
     if (!userContext) {
         throw new Error("useUser must be used within a UserProvider");
     }
     const { isLoggedIn, setIsLoggedIn, setToken, user, setUser, appointments, setAppointments } = userContext; // User login state
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         if (isExpanded && isLoggedIn) {
@@ -48,6 +49,11 @@ function Header() {
         setIsExpanded(true); // Expand sidebar to show login page
     };
 
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+        setShowDropdown(false);
+    };
+
     const icons = Array.from({ length: 8 }).map((_, index) => (
         <RiSettingsFill
             key={index}
@@ -73,6 +79,21 @@ function Header() {
             <div className="w-full flex justify-between items-center h-16">
                 <div className="flex items-center ml-6">
                     <img src={logo} alt="Logo" className="h-14 w-14" />
+                    <div
+                        className="relative ml-4 cursor-pointer text-black hover:text-red-700"
+                        onClick={() => setShowDropdown(!showDropdown)}
+                    >
+                        Language
+                        {showDropdown && (
+                            <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-300 rounded shadow-lg">
+                                <div className="py-1">
+                                    <div className="block px-4 py-2 text-black hover:bg-gray-200 cursor-pointer" onClick={() => changeLanguage('en')}>English</div>
+                                    <div className="block px-4 py-2 text-black hover:bg-gray-200 cursor-pointer" onClick={() => changeLanguage('de')}>Deutsch</div>
+                                    <div className="block px-4 py-2 text-black hover:bg-gray-200 cursor-pointer" onClick={() => changeLanguage('bs')}>Bosanski</div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="hidden md:flex space-x-8">
@@ -82,7 +103,7 @@ function Header() {
                     <a href="#contact" className="text-black hover:text-red-700">{t("headerContact")}</a>
                 </div>
 
-                <div className="mr-6 flex items-center hover:glow-red z-10">
+                <div className="relative mr-6 flex items-center hover:glow-red z-10">
                     <Hamburger toggled={isOpen} toggle={toggleSidebar} color={isOpen ? "#FFFFFF" : "#000000"} />
                 </div>
             </div>

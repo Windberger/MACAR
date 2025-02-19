@@ -14,7 +14,7 @@ function Contact() {
         { weekDay: t("contactWeekdayTuesday"), startTime: '08:00', endTime: '17:00' },
         { weekDay: t("contactWeekdayWednesday"), startTime: '08:00', endTime: '17:00' },
         { weekDay: t("contactWeekdayThursday"), startTime: '08:00', endTime: '17:00' },
-        { weekDay: t("contactWeekdayFriday"), startTime: 'Closed', endTime: '' },
+        { weekDay: t("contactWeekdayFriday"), startTime: t("closed"), endTime: '' },
         { weekDay: t("contactWeekdaySaturday"), startTime: '08:00', endTime: '17:00' },
     ];
 

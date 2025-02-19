@@ -3,8 +3,9 @@ import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md"
 import carMechanic from "../../assets/images/carmechanic.jpg";
 import buero from "../../assets/images/buero.jpg";
 import objekt from "../../assets/images/objekat.jpg";
+import oldcar from "../../assets/images/oldcar.jpg";
 
-const images = [carMechanic, buero, carMechanic, objekt, carMechanic];
+const images = [oldcar, buero, carMechanic, objekt, carMechanic];
 
 const Carousel = () => {
     const [activeIndex, setActiveIndex] = useState(0);

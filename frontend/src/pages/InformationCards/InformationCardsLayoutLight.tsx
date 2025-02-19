@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import InformationCardLight from "../../components/InformationCardLight.tsx";
-import carwash from "../../assets/images/carwash.jpg";
-import carmechanic from "../../assets/images/carmechanic.jpg";
+import cleancar from "../../assets/images/cleanCar.jpg";
+import reifen from "../../assets/images/reifen.jpg";
+import porsche from "../../assets/images/porsche.jpg";
 import { useInView } from "react-intersection-observer";
 import {BiSolidCarWash, BiSolidCarMechanic} from "react-icons/bi";
 import {FaCar} from "react-icons/fa";
@@ -33,7 +34,7 @@ function InformationCardsLayoutLight() {
                     className="shadow-none sm:shadow-none md:text-lg"
                     icon={<BiSolidCarWash size={48} color="#b91c1c" />}
                 />
-                <img src={carwash} alt="Car Wash" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
+                <img src={cleancar} alt="Car Wash" className="hidden sm:block md:block lg:block w-1/3 h-auto z-10" />
             </motion.div>
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -42,7 +43,7 @@ function InformationCardsLayoutLight() {
                 className="flex flex-col sm:flex-row md:flex-row justify-center items-center bg-white w-full sm:w-4/5 md:w-11/12 space-y-5 sm:space-y-0 md:space-y-0 sm:space-x-10 md:space-x-10 p-5 z-10 rounded-none sm:rounded-xl shadow-lg"
                 id="mechanic"
             >
-                <img src={carmechanic} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
+                <img src={reifen} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/3 h-auto z-10" />
                 <InformationCardLight
                     left={false}
                     title={t("secondInformationCardTitle")}
@@ -67,7 +68,7 @@ function InformationCardsLayoutLight() {
                     icon={<FaCar size={48} color="#b91c1c" />}
                     button={<button className={"accent-red-800"} />}
                 />
-                <img src={carmechanic} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
+                <img src={porsche} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/3 h-auto z-10" />
             </motion.div>
 
             <div className="mb-12"></div>
