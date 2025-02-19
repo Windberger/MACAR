@@ -76,7 +76,7 @@ i18n.use(initReactI18next).init({
                 contactWeekdayFriday: "Friday",
                 contactWeekdaySaturday: "Saturday",
                 contactWeekdaySunday: "Sunday",
-                closed: "Closed"
+                contactWeekdayClosed: "Closed"
 
             }
         },
@@ -145,7 +145,7 @@ i18n.use(initReactI18next).init({
                 contactWeekdayFriday: "Freitag",
                 contactWeekdaySaturday: "Samstag",
                 contactWeekdaySunday: "Sonntag",
-                closed: "Geschlossen"
+                contactWeekdayClosed: "Geschlossen"
 
             }
         },
@@ -215,7 +215,7 @@ i18n.use(initReactI18next).init({
                 contactWeekdayFriday: "Petak",
                 contactWeekdaySaturday: "Subota",
                 contactWeekdaySunday: "Nedjelja",
-                closed: "Zatvoreno"
+                contactWeekdayClosed: "Zatvoreno"
             }
         }
     },

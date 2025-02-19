@@ -9,16 +9,16 @@ function Contact() {
     const address = 'Stjena bb, 77224\nBosnia and Herzegovina';
     const phone = '+387 61 674285';
     const businessHours: IOpeningTimes[] = [
-        { weekDay: t("contactWeekdaySunday"), startTime: '08:00', endTime: '14:00' },
-        { weekDay: t("contactWeekdayMonday"), startTime: '08:00', endTime: '17:00' },
-        { weekDay: t("contactWeekdayTuesday"), startTime: '08:00', endTime: '17:00' },
-        { weekDay: t("contactWeekdayWednesday"), startTime: '08:00', endTime: '17:00' },
-        { weekDay: t("contactWeekdayThursday"), startTime: '08:00', endTime: '17:00' },
-        { weekDay: t("contactWeekdayFriday"), startTime: t("closed"), endTime: '' },
-        { weekDay: t("contactWeekdaySaturday"), startTime: '08:00', endTime: '17:00' },
+        { weekDayId: 0, weekDay: t("contactWeekdaySunday"), startTime: '08:00', endTime: '14:00' },
+        { weekDayId: 1, weekDay: t("contactWeekdayMonday"), startTime: '08:00', endTime: '17:00' },
+        { weekDayId: 2, weekDay: t("contactWeekdayTuesday"), startTime: '08:00', endTime: '17:00' },
+        { weekDayId: 3, weekDay: t("contactWeekdayWednesday"), startTime: '08:00', endTime: '17:00' },
+        { weekDayId: 4, weekDay: t("contactWeekdayThursday"), startTime: '08:00', endTime: '17:00' },
+        { weekDayId: 5, weekDay: t("contactWeekdayFriday"), startTime: t("contactWeekdayClosed"), endTime: '' },
+        { weekDayId: 6, weekDay: t("contactWeekdaySaturday"), startTime: '08:00', endTime: '17:00' },
     ];
 
-    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    const today = new Date().getDay()
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
 
@@ -75,7 +75,7 @@ function Contact() {
                     <h3 className="text-lg font-bold">{t("contactOpeningTimesTitle")}</h3>
                     <ul className="text-sm space-y-1">
                         {businessHours.map((hour, index) => (
-                            <li key={index} className={`flex justify-between ${hour.weekDay === today ? 'text-red-700' : ''}`}>
+                            <li key={index} className={`flex justify-between ${hour.weekDayId === today ? 'text-red-700' : ''}`}>
                                 <span>{hour.weekDay}</span>
                                 <span className="ml-2">{hour.startTime}{hour.endTime && `–${hour.endTime}`}</span>
                             </li>
