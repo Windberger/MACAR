@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import logo from "../assets/images/logo.png";
 import { Sling as Hamburger } from 'hamburger-react';
-import { RiSettingsFill, RiTempColdLine, RiTempHotLine, RiThunderstormsLine } from "react-icons/ri";
+import { RiSettingsFill, RiTempColdLine, RiTempHotLine, RiThunderstormsLine, RiGlobalLine } from "react-icons/ri";
 import LoginPageLight from "../pages/LoginPage/LoginPageLight.tsx";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "../context/UserContext.tsx";
@@ -83,7 +83,7 @@ function Header() {
                         className="relative ml-4 cursor-pointer text-black hover:text-red-700"
                         onClick={() => setShowDropdown(!showDropdown)}
                     >
-                        Language
+                        <RiGlobalLine size={24} />
                         {showDropdown && (
                             <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-300 rounded shadow-lg">
                                 <div className="py-1">
