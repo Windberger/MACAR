@@ -1,7 +1,4 @@
-import HeroImage from "./pages/HeroImage/HeroImage.tsx";
-import Header from "./components/Header.tsx";
 import {useTranslation} from "react-i18next";
-import InformationCardsLayout from "./pages/InformationCards/InformationCardsLayout.tsx";
 import Carousel from "./pages/CompanyPage/Carousel.tsx";
 import {UserContext} from "./context/UserContext.tsx";
 import {useContext, useEffect} from "react";
@@ -15,7 +12,7 @@ import Contact from "./pages/CompanyPage/Contact.tsx";
 
 function App() {
 
-    const {i18n, t} = useTranslation();
+    const {i18n} = useTranslation();
     const userContext = useContext(UserContext);
     if (!userContext) {
         throw new Error("UserContext not found");
@@ -66,7 +63,7 @@ function App() {
             }
 
             <InformationCardsLayoutLight></InformationCardsLayoutLight>
-            <Carousel heading={t("headingCompanyPage")}></Carousel>
+            <Carousel></Carousel>
             <Contact/>
         </div>
     );

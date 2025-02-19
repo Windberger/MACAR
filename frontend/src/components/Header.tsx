@@ -3,7 +3,6 @@ import logo from "../assets/images/logo.png";
 import { Sling as Hamburger } from 'hamburger-react';
 import { RiSettingsFill, RiTempColdLine, RiTempHotLine, RiThunderstormsLine } from "react-icons/ri";
 import LoginPage from "../pages/LoginPage/LoginPage";
-import { useTranslation } from "react-i18next";
 import {UserContext} from "../context/UserContext.tsx";
 import {nullUser} from "../types/UserData.ts";
 import {logoutUser} from "../services/authService.ts";
@@ -35,7 +34,6 @@ function Header() {
 
 
     const [isExpanded, setIsExpanded] = useState(false); // Sidebar expansion state
-    const { t } = useTranslation();
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);

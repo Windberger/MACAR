@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
-import carMechanic from "../../assets/images/carmechanic.jpg";
 import buero from "../../assets/images/buero.jpg";
 import objekt from "../../assets/images/objekat.jpg";
 import oldcar from "../../assets/images/oldcar.jpg";
