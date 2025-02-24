@@ -1,42 +1,13 @@
+// admin_frontend/src/components/WeeklySchedule.tsx
 import React, { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
-import { Button } from "@mui/material";
-
-export interface Appointment {
-    id: number;
-    datetime: Date;
-    datetimeString: string;
-    type: string;
-    description: string;
-}
-
-const mockAppointments: Appointment[] = [
-    {
-        id: 1,
-        datetime: new Date("2025-02-14T10:00:00"),
-        datetimeString: "2025-02-14T10:00:00",
-        type: "Meeting",
-        description: "Projektbesprechung mit Team",
-    },
-    {
-        id: 2,
-        datetime: new Date("2025-02-15T14:00:00"),
-        datetimeString: "2025-02-15T14:00:00",
-        type: "Arzttermin",
-        description: "Routineuntersuchung beim Arzt",
-    },
-    {
-        id: 3,
-        datetime: new Date("2025-02-16T09:00:00"),
-        datetimeString: "2025-02-16T09:00:00",
-        type: "Sport",
-        description: "Fitnessstudio Session",
-    },
-];
+import AppointmentDialog from "./AppointmentDialog";
+import { mockAppointments } from "../assets/mockAppointments";
+import {IAppointment} from "../interfaces/IAppointment.ts";
 
 const WeeklySchedule: React.FC = () => {
-    const [appointments, setAppointments] = useState<Appointment[]>(mockAppointments);
-    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+    const [appointments, setAppointments] = useState<IAppointment[]>(mockAppointments);
+    const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const hours = Array.from({ length: 10 }, (_, i) => i + 8);
     const days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
@@ -49,9 +20,27 @@ const WeeklySchedule: React.FC = () => {
         }) || null;
     };
 
-    const handleDelete = (id: number) => {
-        setAppointments(appointments.filter(appt => appt.id !== id));
+    const handleUpdate = (updatedAppointment: IAppointment) => {
+        setAppointments(appointments.map(appt => appt.id === updatedAppointment.id ? updatedAppointment : appt));
+    };
+
+    const handleOpenDialog = (appointment: IAppointment | null) => {
+        setSelectedAppointment(appointment);
+        setIsDialogOpen(true);
+    };
+
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
         setSelectedAppointment(null);
+    };
+
+    const handleSubmit = (appointment: IAppointment) => {
+        if (selectedAppointment) {
+            handleUpdate(appointment);
+        } else {
+            setAppointments([...appointments, appointment]);
+        }
+        handleCloseDialog();
     };
 
     return (
@@ -76,6 +65,7 @@ const WeeklySchedule: React.FC = () => {
                                     <td
                                         key={day + hour}
                                         className="border border-gray-300 px-4 py-2 text-center w-[12.5%] break-words"
+                                        onClick={() => handleOpenDialog(appointment)}
                                     >
                                         {appointment ? appointment.description : " "}
                                     </td>
@@ -86,30 +76,13 @@ const WeeklySchedule: React.FC = () => {
                     </tbody>
                 </table>
 
-                {selectedAppointment && (
-                    <Dialog open={true} onClose={() => setSelectedAppointment(null)}>
-                        <DialogTitle>Termin bearbeiten</DialogTitle>
-                        <DialogContent>
-                            <TextField
-                                label="Name"
-                                value={selectedAppointment.type}
-                                onChange={(e) => setSelectedAppointment({...selectedAppointment, type: e.target.value})}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Beschreibung"
-                                value={selectedAppointment.description}
-                                onChange={(e) => setSelectedAppointment({...selectedAppointment, description: e.target.value})}
-                                fullWidth
-                                margin="normal"
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button color="error" onClick={() => handleDelete(selectedAppointment.id)}>Löschen</Button>
-                            <Button onClick={() => setSelectedAppointment(null)}>Schließen</Button>
-                        </DialogActions>
-                    </Dialog>
+                {isDialogOpen && (
+                    <AppointmentDialog
+                        open={isDialogOpen}
+                        onClose={handleCloseDialog}
+                        onSubmit={handleSubmit}
+                        appointment={selectedAppointment}
+                    />
                 )}
             </div>
         </div>

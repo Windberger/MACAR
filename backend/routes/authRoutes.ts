@@ -61,7 +61,7 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
 
         res.status(500).json({message: 'Error registering user'});
     }
-    const verificationToken = jwt.sign({id: user.user_id}, VERIFY_TOKEN_SECRET, {expiresIn: VERIFY_TOKEN_LIFETIME});
+   // const verificationToken = jwt.sign({id: user.user_id}, VERIFY_TOKEN_SECRET, {expiresIn: VERIFY_TOKEN_LIFETIME});
 
     // TODO: call function to send email
 
@@ -105,7 +105,7 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                secure: true, // Nur für HTTPS //TODO: wenn app fertig beides auf true setzen
+                secure: true, // Nur für HTTPS
                 sameSite: 'none',
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 365) // 30 Tage
             });
