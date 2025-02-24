@@ -4,6 +4,7 @@ import WeeklySchedule from "./components/WeeklySchedule";
 import AppointmentDialog from "./components/AppointmentDialog";
 import AppointmentList from "./components/AppointmentList";
 import { IAppointment } from "./interfaces/IAppointment";
+import CustomerList from "./components/CustomerList.tsx";
 
 function App() {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -31,23 +32,24 @@ function App() {
     };
 
     return (
-        <div className="App flex flex-row justify-center items-start h-screen">
-            <div className="w-1/2 p-4">
+        <div className="App flex flex-row justify-center items-start h-screen gap-4 p-4">
+            <div className="flex">
                 <WeeklySchedule />
-                <button
-                    onClick={handleOpenDialog}
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                    Make Appointment
-                </button>
-            </div>
-            <div className="w-1/2 p-4">
+
                 <AppointmentList
                     appointments={appointments}
                     onDelete={handleDelete}
                     onEdit={handleEdit}
                 />
             </div>
+
+            <button
+                onClick={handleOpenDialog}
+                className="absolute bottom-4 right-4 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+                Make Appointment
+            </button>
+
             {isDialogOpen && (
                 <AppointmentDialog
                     open={isDialogOpen}
@@ -55,6 +57,10 @@ function App() {
                     onSubmit={handleSubmit}
                 />
             )}
+
+            <div className="w-full lg:w-3/4 xl:w-2/3">
+                <CustomerList />
+            </div>
         </div>
     );
 }

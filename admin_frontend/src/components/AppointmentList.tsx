@@ -1,36 +1,72 @@
-import React, {JSX, useState} from "react";
+import React, { useState } from "react";
 import {
-    Card,
-    CardContent,
-    Typography,
-    IconButton,
     MenuItem,
     TextField,
     Select,
     FormControl,
     InputLabel
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EventIcon from "@mui/icons-material/Event";
-import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IAppointment } from "../interfaces/IAppointment";
+import { AppointmentCard } from "./AppointmentCard";
+import AppointmentDialog from "./AppointmentDialog";
+
+const mockAppointments: IAppointment[] = [
+    {
+        id: 1,
+        title: "Consultation",
+        type: "Consultation",
+        datetimeString: "2023-12-01T10:00:00",
+        datetime: new Date("2023-12-01T10:00:00"),
+        description: "Consultation with Dr. Smith"
+    },
+    {
+        id: 2,
+        title: "Checkup",
+        type: "Checkup",
+        datetimeString: "2023-12-02T11:00:00",
+        datetime: new Date("2023-12-02T11:00:00"),
+        description: "Annual checkup"
+    },
+    {
+        id: 3,
+        title: "Follow-up",
+        type: "Follow-up",
+        datetimeString: "2023-12-03T12:00:00",
+        datetime: new Date("2023-12-03T12:00:00"),
+        description: "Follow-up appointment"
+    }
+];
 
 interface AppointmentListProps {
-    appointments: IAppointment[];
     onDelete: (id: number) => void;
     onEdit: (appointment: IAppointment) => void;
 }
 
-const iconMap: { [key: string]: JSX.Element } = {
-    Consultation: <MedicalServicesIcon color="primary" />,
-    Checkup: <EventIcon color="secondary" />,
-    "Follow-up": <VisibilityIcon color="action" />
-};
-
-const AppointmentList: React.FC<AppointmentListProps> = ({ appointments, onDelete, onEdit }) => {
+const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit }) => {
+    const [appointments, setAppointments] = useState<IAppointment[]>(mockAppointments);
     const [sortBy, setSortBy] = useState("date");
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const handleOpenDialog = (appointment: IAppointment | null) => {
+        setSelectedAppointment(appointment);
+        setIsDialogOpen(true);
+    };
+
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+        setSelectedAppointment(null);
+    };
+
+    const handleSubmit = (appointment: IAppointment) => {
+        if (selectedAppointment) {
+            onEdit(appointment);
+        } else {
+            setAppointments([...appointments, appointment]);
+        }
+        handleCloseDialog();
+    };
 
     const sortedAppointments = [...appointments].sort((a, b) => {
         if (sortBy === "date") {
@@ -47,37 +83,37 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments, onDelet
 
     return (
         <div style={{ width: "100%", maxHeight: "500px", overflowY: "auto", padding: "10px", border: "1px solid #ccc", borderRadius: "8px" }}>
-            <FormControl fullWidth margin="dense">
-                <InputLabel>Sort by</InputLabel>
-                <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                    <MenuItem value="date">Date</MenuItem>
-                    <MenuItem value="title">Title</MenuItem>
-                </Select>
-            </FormControl>
-            <TextField
-                fullWidth
-                margin="dense"
-                label="Search"
-                variant="outlined"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                <FormControl fullWidth>
+                    <InputLabel>Sort by</InputLabel>
+                    <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                        <MenuItem value="date">Date</MenuItem>
+                        <MenuItem value="title">Title</MenuItem>
+                    </Select>
+                </FormControl>
+                <TextField
+                    fullWidth
+                    label="Search"
+                    variant="outlined"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
             {filteredAppointments.map((appointment) => (
-                <Card key={appointment.id} variant="outlined" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 2, margin: 2 }}>
-                    <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6">{appointment.title}</Typography>
-                        {iconMap[appointment.type]}
-                        <Typography variant="subtitle1">{appointment.datetimeString.split("T")[0]}</Typography>
-                        <Typography variant="subtitle2">{appointment.datetimeString.split("T")[1]}</Typography>
-                    </CardContent>
-                    <IconButton onClick={() => onEdit(appointment)}>
-                        <VisibilityIcon color="primary" />
-                    </IconButton>
-                    <IconButton onClick={() => onDelete(appointment.id)}>
-                        <DeleteIcon color="error" />
-                    </IconButton>
-                </Card>
+                <AppointmentCard
+                    key={appointment.id}
+                    appointment={appointment}
+                    onClick={handleOpenDialog}
+                />
             ))}
+            {isDialogOpen && (
+                <AppointmentDialog
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    onSubmit={handleSubmit}
+                    appointment={selectedAppointment}
+                />
+            )}
         </div>
     );
 };
