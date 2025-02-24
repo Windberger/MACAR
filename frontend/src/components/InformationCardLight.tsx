@@ -2,7 +2,7 @@ import {Card, CardContent, CardHeader} from "@mui/material";
 
 interface IInformationCard {
     title: string;
-    description: string;
+    description?: string;
     left: boolean;
     className?: string;
     icon: JSX.Element;
