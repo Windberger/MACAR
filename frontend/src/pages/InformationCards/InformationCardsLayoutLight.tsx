@@ -70,7 +70,7 @@ function InformationCardsLayoutLight() {
                     icon={<FaCar size={48} color="#b91c1c" />}
                     button={
                         <a href="https://olx.ba/profil/MACAR/" target="_blank" rel="noopener noreferrer">
-                            <button className="accent-red-800 text-white mt-5">{t("carShopButton")}</button>
+                            <button className="accent-red-800 text-white background-black mt-5">{t("carShopButton")}</button>
                         </a>
                     }
                 />
