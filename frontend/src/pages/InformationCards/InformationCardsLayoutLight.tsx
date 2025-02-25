@@ -68,7 +68,11 @@ function InformationCardsLayoutLight() {
                     description={t("thirdInformationCardContent")}
                     className="shadow-none sm:shadow-none md:text-lg"
                     icon={<FaCar size={48} color="#b91c1c" />}
-                    button={<button className="accent-red-800 text-white mt-5">Go to Car Shop</button>}
+                    button={
+                        <a href="https://olx.ba/profil/MACAR/" target="_blank" rel="noopener noreferrer">
+                            <button className="accent-red-800 text-white mt-5">{t("carShopButton")}</button>
+                        </a>
+                    }
                 />
                 <img src={carmechanic} alt="Car Mechanic" className="hidden sm:block md:block lg:block w-1/2 h-full z-10" />
             </motion.div>

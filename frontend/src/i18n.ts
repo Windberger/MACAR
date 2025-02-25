@@ -31,6 +31,7 @@ i18n.use(initReactI18next).init({
                 secondInformationCardContent: "Keep your car running smoothly with our expert auto repair and maintenance services! From routine check-ups to complex engine repairs, our skilled mechanics ensure your vehicle stays reliable and safe on the road. We use high-quality parts and the latest technology to deliver top-notch service. Drive with confidence – book your appointment today!",
                 thirdInformationCardTitle: "Car; shop",
                 thirdInformationCardContent: "Find your perfect car with us! Whether you're looking for a reliable family vehicle, a stylish sedan, or a powerful SUV, we offer a wide selection of high-quality cars at unbeatable prices. With a hassle-free buying process and great deals, getting your next car has never been easier. Visit us today and drive away in your dream car!",
+                carShopButton: "Go to Car Shop",
 
 
                 // Carousel
@@ -102,6 +103,7 @@ i18n.use(initReactI18next).init({
                 secondInformationCardContent: "Halten Sie Ihr Auto in Bestform mit unseren professionellen Auto-Reparatur- und Wartungsdiensten! Von regelmäßigen Inspektionen bis hin zu komplexen Motorreparaturen – unsere erfahrenen Mechaniker sorgen dafür, dass Ihr Fahrzeug zuverlässig und sicher bleibt. Wir verwenden hochwertige Ersatzteile und moderne Technik für erstklassigen Service. Fahren Sie sorgenfrei – vereinbaren Sie noch heute einen Termin!",
                 thirdInformationCardTitle: "Auto; Shop",
                 thirdInformationCardContent: "Finden Sie Ihr Traumauto bei uns! Ob zuverlässiges Familienauto, elegante Limousine oder kraftvoller SUV – wir bieten eine große Auswahl an hochwertigen Fahrzeugen zu unschlagbaren Preisen. Dank eines unkomplizierten Kaufprozesses und attraktiven Angeboten war der Autokauf noch nie so einfach. Besuchen Sie uns noch heute und fahren Sie mit Ihrem Wunschauto nach Hause!",
+                carShopButton: "Zum Auto Shop",
 
 
                 // Carousel
@@ -172,6 +174,9 @@ i18n.use(initReactI18next).init({
                 secondInformationCardContent: "Održavajte svoj automobil u savršenom stanju uz naše stručne usluge auto mehanike i servisa! Od redovnih pregleda do složenih popravki motora, naši iskusni mehaničari osiguravaju da vaše vozilo ostane pouzdano i sigurno na cesti. Koristimo visokokvalitetne dijelove i najnoviju tehnologiju za vrhunsku uslugu. Vozite bez brige – zakažite svoj termin već danas!",
                 thirdInformationCardTitle: "Prodaja; automobila",
                 thirdInformationCardContent: "Pronađite savršen automobil kod nas! Bilo da tražite pouzdano porodično vozilo, elegantnu limuzinu ili snažan SUV, nudimo širok izbor visokokvalitetnih automobila po najboljim cijenama. Uz jednostavan proces kupovine i odlične ponude, nikada nije bilo lakše doći do novog vozila. Posjetite nas danas i odvezite se u automobilu svojih snova!",
+                carShopButton:
+                    "U prodavnicu automobila",
+
 
                 // Carousel
                 headingCompanyPage: "Naša radnja",
