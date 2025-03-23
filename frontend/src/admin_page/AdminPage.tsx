@@ -1,4 +1,3 @@
-import './App.css';
 import { useState } from 'react';
 import WeeklySchedule from "./components/WeeklySchedule";
 import AppointmentDialog from "./components/AppointmentDialog";
@@ -6,7 +5,7 @@ import AppointmentList from "./components/AppointmentList";
 import { IAppointment } from "./interfaces/IAppointment";
 import CustomerList from "./components/CustomerList.tsx";
 
-function App() {
+function AdminPage() {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -32,7 +31,7 @@ function App() {
     };
 
     return (
-        <div className="App flex flex-row justify-center items-start h-screen gap-4 p-4">
+        <div className="App flex flex-row justify-center items-start h-screen gap-4 p-4 ">
             <div className="flex">
                 <WeeklySchedule />
 
@@ -65,4 +64,4 @@ function App() {
     );
 }
 
-export default App;
+export default AdminPage;
