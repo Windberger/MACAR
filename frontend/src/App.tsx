@@ -1,3 +1,4 @@
+
 import {useTranslation} from "react-i18next";
 import Carousel from "./pages/CompanyPage/Carousel.tsx";
 import {UserContext} from "./context/UserContext.tsx";
@@ -12,7 +13,7 @@ import Contact from "./pages/CompanyPage/Contact.tsx";
 
 function App() {
 
-    const {i18n} = useTranslation();
+    const {i18n, t} = useTranslation();
     const userContext = useContext(UserContext);
     if (!userContext) {
         throw new Error("UserContext not found");
@@ -63,7 +64,7 @@ function App() {
             }
 
             <InformationCardsLayoutLight></InformationCardsLayoutLight>
-            <Carousel></Carousel>
+            <Carousel heading={t("headingCompanyPage")}></Carousel>
             <Contact/>
         </div>
     );

@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import appointmentRoutes from "./routes/appointmentRoutes";
+import * as crypto from "node:crypto";
 
 const app = express();
 const port = 3001;
@@ -31,6 +32,8 @@ app.use(bodyParser.json());
 app.use('/', authRoutes);
 app.use('/', userRoutes);
 app.use('/', appointmentRoutes);
+
+
 
 
 app.listen(port, () => {
