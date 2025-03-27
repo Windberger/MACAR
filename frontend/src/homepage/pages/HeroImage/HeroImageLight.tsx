@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import ferrariHalf from "../../assets/images/ferrariHalf.png";
-import "../../App.css";
+import "../../../App.css";
 import { useTranslation } from "react-i18next";
 
 function HeroImageLight() {
