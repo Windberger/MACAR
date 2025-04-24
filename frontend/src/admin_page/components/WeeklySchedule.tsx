@@ -44,27 +44,27 @@ const WeeklySchedule: React.FC = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="overflow-auto p-4 w-4/5 h-4/5">
-                <table className="w-full border-collapse border border-gray-300 table-fixed">
+        <div className="flex justify-center h-full">
+            <div className="overflow-x-auto w-full">
+                <table className="w-full h-full table-fixed border-t-2 border-l-2 border-r-2 border-b-2 border-black">
                     <thead>
-                    <tr className="border border-gray-300">
-                        <th className="border border-gray-300 px-4 py-2 text-center w-[12.5%]">Zeit</th>
+                    <tr className="bg-black text-white">
+                        <th className="px-2 py-2 text-center w-[8%]">Zeit</th>
                         {days.map(day => (
-                            <th key={day} className="border border-gray-300 px-4 py-2 text-center w-[12.5%]">{day}</th>
+                            <th key={day} className=" px-2 py-2 text-center w-[8%]">{day}</th>
                         ))}
                     </tr>
                     </thead>
                     <tbody>
                     {hours.map(hour => (
-                        <tr key={hour} className="border border-gray-300">
-                            <td className="border border-gray-300 px-4 py-2 text-center w-[12.5%]">{hour}:00</td>
+                        <tr key={hour} className="border border-gray-300 rounded-lg">
+                            <td className="px-4 py-2 text-center">{hour}:00</td>
                             {days.map(day => {
                                 const appointment = getAppointmentForCell(day, hour);
                                 return (
                                     <td
                                         key={day + hour}
-                                        className="border border-gray-300 px-4 py-2 text-center w-[12.5%] break-words"
+                                        className="border border-gray-300 rounded-lg px-4 py-2 text-center break-words"
                                         onClick={() => handleOpenDialog(appointment)}
                                     >
                                         {appointment ? appointment.description : " "}
@@ -75,15 +75,6 @@ const WeeklySchedule: React.FC = () => {
                     ))}
                     </tbody>
                 </table>
-
-                {isDialogOpen && (
-                    <AppointmentDialog
-                        open={isDialogOpen}
-                        onClose={handleCloseDialog}
-                        onSubmit={handleSubmit}
-                        appointment={selectedAppointment}
-                    />
-                )}
             </div>
         </div>
     );

@@ -1,10 +1,12 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import AppointmentDialog from "./components/AppointmentDialog";
 import AppointmentList from "./components/AppointmentList";
-import {IAppointment} from "./interfaces/IAppointment";
-import {Button} from "@mui/material";
-import {getAppointmentsByWeek} from "./services/appointmentService.ts";
-import {UserContext} from "../homepage/context/UserContext.tsx";
+import { IAppointment } from "./interfaces/IAppointment";
+import { Button } from "@mui/material";
+import { getAppointmentsByWeek } from "./services/appointmentService.ts";
+import { UserContext } from "../homepage/context/UserContext.tsx";
+import CustomerList from "./components/CustomerList.tsx";
+import WeeklySchedule from "./components/WeeklySchedule.tsx";
 
 function AdminPage() {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -14,7 +16,7 @@ function AdminPage() {
     if (!userContext) {
         throw new Error("UserContext not found");
     }
-    const {token} = userContext;
+    const { token } = userContext;
 
     const handleOpenDialog = () => {
         setIsDialogOpen(true);
@@ -43,41 +45,55 @@ function AdminPage() {
                 setAppointments(appointments);
             });
         }
-
         console.log(appointments);
-    }
+    };
 
     return (
-        <div className="App flex flex-row justify-center items-start h-screen gap-4 p-4 ">
-            <Button onClick={getAppointments}>Get Appointments By Week</Button>
-            {/*<div className="flex">*/}
-            {/*    <WeeklySchedule />*/}
+        <div className="flex flex-col h-screen">
+            {/* Sticky Navbar */}
+            <div className="sticky top-0 z-10 bg-black p-2 shadow flex justify-between items-center">
+                {/* Left-aligned MACAR */}
+                <div className="text-xl text-white font-bold tracking-widest">MACAR</div>
 
-            {/*    <AppointmentList*/}
-            {/*        appointments={appointments}*/}
-            {/*        onDelete={handleDelete}*/}
-            {/*        onEdit={handleEdit}*/}
-            {/*    />*/}
-            {/*</div>*/}
+                {/* Right-aligned buttons */}
+                <div className="flex gap-2 p-1">
+                    <button className="text-white bg-black hover:text-black hover:bg-white" onClick={getAppointments}>Get Appointments By Week</button>
+                    <button className="text-white bg-black hover:text-black hover:bg-white" onClick={handleOpenDialog} variant="contained">
+                        Make Appointment
+                    </button>
+                </div>
+            </div>
 
-            {/*<button*/}
-            {/*    onClick={handleOpenDialog}*/}
-            {/*    className="absolute bottom-4 right-4 px-4 py-2 bg-blue-500 text-white rounded"*/}
-            {/*>*/}
-            {/*    Make Appointment*/}
-            {/*</button>*/}
+            {/* Hauptinhalt */}
+            <div className="flex flex-row flex-grow mt-4 gap-2 px-8 py-2">
+                {/* WeeklySchedule mit fester Größe */}
+                <div className="w-2/3 h-[600px] overflow-y-auto border border-gray-300 rounded-lg">
+                    <WeeklySchedule/>
+                </div>
 
-            {/*{isDialogOpen && (*/}
-            {/*    <AppointmentDialog*/}
-            {/*        open={isDialogOpen}*/}
-            {/*        onClose={handleCloseDialog}*/}
-            {/*        onSubmit={handleSubmit}*/}
-            {/*    />*/}
-            {/*)}*/}
+                {/* AppointmentList */}
+                <div className="w-1/3 flex flex-col gap-2 h-full overflow-y-auto">
+                    <AppointmentList
+                        appointmentProp={appointments}
+                        onDelete={handleDelete}
+                        onEdit={handleEdit}
+                    />
+                </div>
+            </div>
 
-            {/*<div className="w-full lg:w-3/4 xl:w-2/3">*/}
-            {/*    <CustomerList />*/}
-            {/*</div>*/}
+            {/* CustomerList – unten fixiert */}
+            <div className="p-4">
+                <CustomerList/>
+            </div>
+
+            {/* Dialog */}
+            {isDialogOpen && (
+                <AppointmentDialog
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    onSubmit={handleSubmit}
+                />
+            )}
         </div>
     );
 }
