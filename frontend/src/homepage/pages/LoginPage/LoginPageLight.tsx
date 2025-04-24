@@ -28,7 +28,7 @@ function LoginPageLight() {
         throw new Error("UserContext must be used within a UserContextProvider");
     }
 
-    const { setIsLoggedIn, setToken, setUser, setAppointments } = userContext;
+    const { setIsLoggedIn, setToken, user, setUser, setAppointments } = userContext;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -105,7 +105,7 @@ function LoginPageLight() {
                 setUser(r);
                 setIsLoggedIn(true);
 
-                getAppointmentsByUser(token)
+                getAppointmentsByUser(token, user.user_id)
                     .then((appointments) => {
                         setAppointments(appointments);
                     })

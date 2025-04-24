@@ -20,7 +20,7 @@ function App() {
     if (!userContext) {
         throw new Error("UserContext not found");
     }
-    const {setToken, setUser, setAppointments, setIsLoggedIn} = userContext;
+    const {setToken, user, setUser, setAppointments, setIsLoggedIn} = userContext;
 
 
     useEffect(() => {
@@ -41,8 +41,7 @@ function App() {
             fetchUserData(accessToken).then((userData) => {
                 setUser(userData);
                 setIsLoggedIn(true);
-
-                getAppointmentsByUser(accessToken).then((appointments) => {
+                getAppointmentsByUser(accessToken, user.user_id).then((appointments) => {
                     setAppointments(appointments);
                 });
             }).catch((error) => {

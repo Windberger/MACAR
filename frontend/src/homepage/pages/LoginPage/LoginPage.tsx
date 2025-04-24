@@ -30,7 +30,7 @@ function LoginPage() {
         throw new Error("UserContext must be used within a UserContextProvider");
     }
 
-    const {setIsLoggedIn, setToken, setUser, setAppointments} = userContext;
+    const {setIsLoggedIn, setToken, user, setUser, setAppointments} = userContext;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -105,7 +105,7 @@ function LoginPage() {
             setUser(r);
             setIsLoggedIn(true);
 
-            getAppointmentsByUser(token).then((appointments) => {
+            getAppointmentsByUser(token, user.user_id).then((appointments) => {
                 setAppointments(appointments);
             }).catch(e => handleErrors(e));
 
