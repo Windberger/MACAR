@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/getAppointmentsByUser', authMiddleware, async (req, res) => {
     // @ts-ignore
     const userId = req.user_id;
-    const user = req.body;
+    const {user} = req.params;
 
     let result: QueryResult;
     if (user) {
@@ -23,8 +23,8 @@ router.get('/getAppointmentsByUser', authMiddleware, async (req, res) => {
 // @ts-ignore
 router.get('/getAppointmentsByWeek', authMiddleware, async (req, res) => {
     // @ts-ignore
-    // calculation of the current week
-    const {date} = req.body;
+    let { date }: string | Date = req.query;
+    date = new Date(date);
 
     if(!date) {
         return res.status(400).json({message: 'Missing required information'});
@@ -32,10 +32,12 @@ router.get('/getAppointmentsByWeek', authMiddleware, async (req, res) => {
 
     const weekStart = new Date(date);
     weekStart.setDate(date.getDate() - date.getDay());
+    weekStart.setHours(0, 0, 0, 0);
     const weekEnd = new Date(date);
     weekEnd.setDate(date.getDate() + (6 - date.getDay()));
-    console.log(weekStart.toDateString())
-    console.log(weekEnd.toDateString())
+    weekEnd.setHours(23, 59, 59, 999);
+    console.log(weekStart, weekEnd);
+
 
     const result = await pool.query("SELECT appointment_id, appointment_datetime, appointment_type, description FROM appointment WHERE appointment_datetime >= $1 AND appointment_datetime <= $2 ORDER BY appointment_datetime;", [weekStart, weekEnd]);
 

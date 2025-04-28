@@ -1,12 +1,16 @@
 import apiClient from './apiClient';
 import {DatabaseAppointment} from "../types/AppointmentData.ts";
 
-export const getAppointmentsByUser = async (token: string) => {
+export const getAppointmentsByUser = async (token: string, userId: number) => {
     try {
+        console.log(userId);
         const response = await apiClient.get('/getAppointmentsByUser', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            params: {
+                user: userId,
+            }
         });
 
         const dbAppointments: DatabaseAppointment[] = response.data;

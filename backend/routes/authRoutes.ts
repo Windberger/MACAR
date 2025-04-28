@@ -75,6 +75,7 @@ router.post('/register', async (req: express.Request, res: express.Response) => 
 // @ts-ignore
 router.post('/login', async (req: express.Request, res: express.Response) => {
     const {email, phoneNumber, password} = req.body;
+    console.log("login")
 
     if (!password || (!email && !phoneNumber)) {
         return res.status(400).json({message: 'Not all fields provided'});
@@ -104,8 +105,8 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
 
 
             res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                secure: true, // Nur für HTTPS
+                httpOnly: false,
+                secure: false, // Nur für HTTPS
                 sameSite: 'none',
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 365) // 30 Tage
             });
@@ -118,6 +119,8 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
     } catch (err) {
         res.status(500).json({message: 'Error logging in'});
     }
+    console.log("login")
+
 });
 
 

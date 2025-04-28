@@ -6,3 +6,10 @@ export interface IAppointment {
     type: string,
     description: string,
 }
+
+export interface IDBAppointment {
+    appointment_id: number,
+    appointment_datetime: Date,
+    appointment_type: string,
+    description: string,
+}

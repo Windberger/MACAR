@@ -10,40 +10,14 @@ import { IAppointment } from "../interfaces/IAppointment";
 import { AppointmentCard } from "./AppointmentCard";
 import AppointmentDialog from "./AppointmentDialog";
 
-const mockAppointments: IAppointment[] = [
-    {
-        id: 1,
-        title: "Consultation",
-        type: "Consultation",
-        datetimeString: "2023-12-01T10:00:00",
-        datetime: new Date("2023-12-01T10:00:00"),
-        description: "Consultation with Dr. Smith"
-    },
-    {
-        id: 2,
-        title: "Checkup",
-        type: "Checkup",
-        datetimeString: "2023-12-02T11:00:00",
-        datetime: new Date("2023-12-02T11:00:00"),
-        description: "Annual checkup"
-    },
-    {
-        id: 3,
-        title: "Follow-up",
-        type: "Follow-up",
-        datetimeString: "2023-12-03T12:00:00",
-        datetime: new Date("2023-12-03T12:00:00"),
-        description: "Follow-up appointment"
-    }
-];
-
 interface AppointmentListProps {
     onDelete: (id: number) => void;
     onEdit: (appointment: IAppointment) => void;
+    appointmentProp: IAppointment[];
 }
 
-const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit }) => {
-    const [appointments, setAppointments] = useState<IAppointment[]>(mockAppointments);
+const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit, appointmentProp }) => {
+    const [appointments, setAppointments] = useState<IAppointment[]>(appointmentProp);
     const [sortBy, setSortBy] = useState("date");
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
@@ -82,11 +56,15 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit }) =
     );
 
     return (
-        <div style={{ width: "100%", maxHeight: "500px", overflowY: "auto", padding: "10px", border: "1px solid #ccc", borderRadius: "8px" }}>
-            <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-                <FormControl fullWidth>
+        <div className="w-full max-h-[500px] overflow-y-auto p-4 border-2 border-black rounded-lg bg-white shadow-sm">
+            <div className="flex gap-4 mb-4">
+                <FormControl className="w-full">
                     <InputLabel>Sort by</InputLabel>
-                    <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                    <Select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        label="Sort by"
+                    >
                         <MenuItem value="date">Date</MenuItem>
                         <MenuItem value="title">Title</MenuItem>
                     </Select>
@@ -99,6 +77,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit }) =
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
+
             {filteredAppointments.map((appointment) => (
                 <AppointmentCard
                     key={appointment.id}
@@ -106,6 +85,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit }) =
                     onClick={handleOpenDialog}
                 />
             ))}
+
             {isDialogOpen && (
                 <AppointmentDialog
                     open={isDialogOpen}
