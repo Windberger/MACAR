@@ -77,7 +77,15 @@ i18n.use(initReactI18next).init({
                 contactWeekdayFriday: "Friday",
                 contactWeekdaySaturday: "Saturday",
                 contactWeekdaySunday: "Sunday",
-                contactWeekdayClosed: "Closed"
+                contactWeekdayClosed: "Closed",
+
+
+                //Olx
+                find: "Find",
+                your: "your",
+                new: "new",
+                car: "car",
+                buttonFind: "Find"
 
             }
         },
@@ -147,8 +155,14 @@ i18n.use(initReactI18next).init({
                 contactWeekdayFriday: "Freitag",
                 contactWeekdaySaturday: "Samstag",
                 contactWeekdaySunday: "Sonntag",
-                contactWeekdayClosed: "Geschlossen"
+                contactWeekdayClosed: "Geschlossen",
 
+                //Olx
+                find: "Finde",
+                your: "Dein",
+                new: "neues",
+                car: "Auto",
+                buttonFind: "Finden"
             }
         },
         bs: {
@@ -220,7 +234,15 @@ i18n.use(initReactI18next).init({
                 contactWeekdayFriday: "Petak",
                 contactWeekdaySaturday: "Subota",
                 contactWeekdaySunday: "Nedjelja",
-                contactWeekdayClosed: "Zatvoreno"
+                contactWeekdayClosed: "Zatvoreno",
+
+
+                //Olx
+                find: "Pronađite",
+                your: "svoje",
+                new: "novo",
+                car: "vozilo",
+                buttonFind: "Pronađi"
             }
         }
     },

@@ -1,12 +1,17 @@
+import {useTranslation} from "react-i18next";
+
 const OlxContainer = () => {
+    const {t} = useTranslation();
+
+
     return (
         <div className="relative w-full h-auto bg-white rounded-lg p-6 flex flex-col md:flex-row items-start justify-between">
             {/* Left Section (Text + Button shifted right) */}
             <div className="text-left ml-0 md:ml-16">
                 <h1 className="text-4xl font-bold text-black">
-                    Finde <span className="lg:text-6xl text-5xl text-red-700">dein</span> neues
+                    {t("find")} <span className="lg:text-6xl text-5xl text-red-700">{t("your")}</span> {t("new")}
                 </h1>
-                <h1 className="text-4xl font-bold text-black">Auto.</h1>
+                <h1 className="text-4xl font-bold text-black">{t("car")}.</h1>
 
                 <a
                     href="https://olx.ba/profil/MACAR/aktivni"
@@ -14,7 +19,7 @@ const OlxContainer = () => {
                     rel="noopener noreferrer"
                 >
                     <button className="mt-10 bg-red-700 text-white px-6 py-2 rounded hover:bg-red-800 transition">
-                        Finden
+                        {t("buttonFind")}
                     </button>
                 </a>
             </div>
