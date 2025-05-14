@@ -1,17 +1,13 @@
 import {useTranslation} from "react-i18next";
-import Carousel from "./homepage/pages/CompanyPage/Carousel.tsx";
 import {UserContext} from "./homepage/context/UserContext.tsx";
 import {useContext, useEffect} from "react";
 import {getAccessToken} from "./homepage/services/authService.ts";
 import {fetchUserData} from "./homepage/services/userService.ts";
 import {getAppointmentsByUser} from "./homepage/services/appointmentService.ts";
-import HeaderLight from "./homepage/components/HeaderLight.tsx";
-import HeroImageLight from "./homepage/pages/HeroImage/HeroImageLight.tsx";
-import InformationCardsLayoutLight from "./homepage/pages/InformationCards/InformationCardsLayoutLight.tsx";
-import Contact from "./homepage/pages/CompanyPage/Contact.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Homepage from "./homepage/Homepage.tsx";
 import AdminPage from "./admin_page/AdminPage.tsx";
+import LoginPageLight from "./homepage/pages/LoginPage/LoginPageLight.tsx";
 
 function App() {
 
@@ -62,6 +58,7 @@ function App() {
                     <AdminPage/>
 
                 }/>
+                <Route path="/login" element={<LoginPageLight/>}/>
             </Routes>
         </BrowserRouter>
     );

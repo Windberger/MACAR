@@ -1,48 +1,40 @@
-import {Card, CardContent, CardHeader} from "@mui/material";
+import { Card, CardContent, CardHeader } from '@mui/material';
 
 interface IInformationCard {
     title: string;
     description?: string;
     left: boolean;
     className?: string;
-    icon: JSX.Element;
-    button?: JSX.Element
+    button?: JSX.Element;
 }
 
-function InformationCardLight({title, description, left, className, icon, button}: IInformationCard) {
-    const styleHeader = "text-black mt-5 " + (left ? "text-left" : "text-right");
-    const parts = title.split(";");
+function InformationCardLight({ title, description, left, className, button }: IInformationCard) {
+    const styleHeader = `text-black mt-5 ${left ? 'text-left' : 'text-right'}`;
+    const parts = title.split(';');
 
     return (
         <Card
-            className={`bg-white mt-5 mb-4 w-full h-full p-5 border-transparent ${className}`}
-            style={{borderRadius: "30px"}}
+            className={`bg-white w-full h-full flex ${left ? 'flex-row' : 'flex-row-reverse'} ${className} shadow-2xl`}
             elevation={0}
         >
-            <CardHeader
-                className={styleHeader}
-                title={
-                    <>
-                        <div className="text-3xl font-bold flex flex-col items-center mb-5">
-                            <div
-                                className="mb-4 bg-opacity-100 border rounded-3xl border-transparent p-4 flex justify-center">
-                                {icon}
-                            </div>
+            <div className="flex flex-col w-full">
+                <CardHeader
+                    className={styleHeader}
+                    title={
+                        <div className="text-3xl font-bold text-black">
+                            {parts.map((line, i) => (
+                                <div key={i}>{line}</div>
+                            ))}
                         </div>
-                        <div className={"text-3xl font-bold flex flex-col text-black"}>
-                            {parts[0]}
-                            <br/>
-                            {parts[1]}
-                            <div
-                                className="h-1 bg-red-800 rounded mt-2 thick-glow-line"
-                            ></div>
-                        </div>
-                    </>
-                }
-            />
-            <CardContent className="text-black mb-4">
-                <div className="text-xl text-justify">{description}</div>
-                {button}            </CardContent>
+                    }
+                />
+                <CardContent className="text-black">
+                    <div className={`text-xl whitespace-pre-wrap ${left ? 'lg:pr-10' : 'lg:pl-10'}  ${left ? 'text-left' : 'text-right'}`}>
+                        {description}
+                    </div>
+                    {button && <div className="mt-4">{button}</div>}
+                </CardContent>
+            </div>
         </Card>
     );
 }

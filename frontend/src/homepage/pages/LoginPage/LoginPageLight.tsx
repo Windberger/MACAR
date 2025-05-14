@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import CarImage from "../../assets/images/heroImageCar.png";
 import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { loginUser, registerUser } from "../../services/authService.ts";
 import validator from "validator";
 import { Alert, Snackbar } from "@mui/material";
@@ -8,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { UserContext } from "../../context/UserContext.tsx";
 import { fetchUserData } from "../../services/userService.ts";
 import { getAppointmentsByUser } from "../../services/appointmentService.ts";
+import { useNavigate } from "react-router-dom";
 
 function LoginPageLight() {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -23,6 +25,7 @@ function LoginPageLight() {
     const [errorMessage, setErrorMessage] = useState("");
     const { t } = useTranslation();
     const userContext = useContext(UserContext);
+    const navigate = useNavigate();
 
     if (!userContext) {
         throw new Error("UserContext must be used within a UserContextProvider");
@@ -36,28 +39,9 @@ function LoginPageLight() {
     };
 
     const handleErrors = (e: { response: { data: { message: string } } } | string) => {
-        /*
-            Register Error Messages:
-                400: All fields are required
-                400: Invalid email
-                400: Invalid phone number
-                400: Invalid password
-                409: Email is already in use
-                409: Phone number is already in use
-                500: Error registering user
-            Login Error Messages:
-                400: Not all fields provided
-                404: User not found
-                401: Invalid credentials
-                500: Error logging in
-            Get User / Appointment:
-                401: Invalid token
-                401: Token required
-         */
-
         const messageText = typeof e === "string" ? e : e.response.data.message;
 
-        if(messageText === "Token required" || messageText === "Invalid token") {
+        if (messageText === "Token required" || messageText === "Invalid token") {
             setErrorMessage(t("loginPageErrorToken"));
         }
 
@@ -108,6 +92,7 @@ function LoginPageLight() {
                 getAppointmentsByUser(token, user.user_id)
                     .then((appointments) => {
                         setAppointments(appointments);
+                        window.location.href = "/"; // Redirect to homepage
                     })
                     .catch((e) => handleErrors(e));
             })
@@ -178,8 +163,17 @@ function LoginPageLight() {
     };
 
     return (
-        <div className="flex h-screen bg-black">
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black text-white">
+        <div className="flex h-screen bg-white text-black relative">
+            {/* Back Arrow */}
+            <button
+                onClick={() => navigate("/")}
+                className="absolute top-4 left-4 text-black hover:text-red-500 focus:outline-none bg-transparent"
+                title="Go to Homepage"
+            >
+                <FaArrowLeft size={24} />
+            </button>
+
+            <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white text-black">
                 <h2 className="text-2xl font-bold mb-6">
                     {isRegistering ? t("loginPageIsRegistering") : t("loginPageIsLoggingIn")}
                 </h2>
@@ -192,7 +186,7 @@ function LoginPageLight() {
                                 value={formData.firstName}
                                 onChange={handleChange}
                                 placeholder={t("loginPageFormFirstName")}
-                                className="w-1/2 p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                className="w-1/2 p-3 bg-gray-100 text-black placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
                             />
                             <input
                                 type="text"
@@ -200,7 +194,7 @@ function LoginPageLight() {
                                 value={formData.lastName}
                                 onChange={handleChange}
                                 placeholder={t("loginPageFormLastName")}
-                                className="w-1/2 p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                className="w-1/2 p-3 bg-gray-100 text-black placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
                             />
                         </div>
                     )}
@@ -210,7 +204,7 @@ function LoginPageLight() {
                         value={formData.emailOrPhone}
                         onChange={handleChange}
                         placeholder={t("loginPageFormEmail")}
-                        className="w-full p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full p-3 bg-gray-100 text-black placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
                     />
                     <div className="relative">
                         <input
@@ -219,7 +213,7 @@ function LoginPageLight() {
                             value={formData.password}
                             onChange={handleChange}
                             placeholder={t("loginPageFormPassword")}
-                            className="w-full p-3 bg-gray-800 text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                            className="w-full p-3 bg-gray-100 text-black placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
                         />
                         <span
                             className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
@@ -228,23 +222,23 @@ function LoginPageLight() {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
                         {isPasswordValid(formData.password) && (
-                            <span className="absolute inset-y-0 right-10 flex items-center text-green-400">
+                            <span className="absolute inset-y-0 right-10 flex items-center text-green-500">
                                 <FaCheck />
                             </span>
                         )}
                     </div>
-                    <p className="text-sm text-gray-400 mt-1">
+                    <p className="text-sm text-gray-500 mt-1">
                         {t("loginPageFormPasswordRequirements")}
                     </p>
                     <button
                         type="submit"
-                        className="w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800"
+                        className="w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
                     >
                         {isRegistering ? t("loginPageIsRegistering") : t("loginPageIsLoggingIn")}
                     </button>
                 </form>
-                <p className="mt-4 text-sm text-gray-400">
-                    {isRegistering ? t("loginPageFormChangeToLogin") : t("loginPageFormChangeToRegister")}
+                <p className="mt-4 text-sm text-gray-600">
+                    {isRegistering ? t("loginPageFormChangeToLogin") : t("loginPageFormChangeToRegister")}&nbsp;
                     <button
                         type="button"
                         onClick={() => setIsRegistering(!isRegistering)}
@@ -254,13 +248,13 @@ function LoginPageLight() {
                     </button>
                 </p>
             </div>
-            <div className="hidden md:flex w-1/2 flex-col items-center justify-center bg-gray-800 text-white">
+            <div className="hidden md:flex w-1/2 flex-col items-center justify-center text-black relative">
                 <img
                     src={CarImage}
                     alt="Hero Car"
-                    className="w-full h-full object-cover opacity-80"
+                    className="w-full h-full object-cover opacity-70"
                 />
-                <div className="absolute text-center">
+                <div className="absolute text-center text-white p-4 rounded shadow">
                     <h2 className="text-3xl font-bold">
                         {isRegistering ? t("loginPageHeaderRegistering") : t("loginPageHeaderLogin")}
                     </h2>
