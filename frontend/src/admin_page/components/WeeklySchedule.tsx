@@ -4,6 +4,11 @@ import AppointmentDialog from "./AppointmentDialog";
 import { mockAppointments } from "../assets/mockAppointments";
 import {IAppointment} from "../interfaces/IAppointment.ts";
 
+interface WeeklyScheduleProps {
+    appointments: IAppointment[],
+    setAppointments: (appointments: IAppointment[]) => void
+}
+
 const WeeklySchedule: React.FC = () => {
     const [appointments, setAppointments] = useState<IAppointment[]>(mockAppointments);
     const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);

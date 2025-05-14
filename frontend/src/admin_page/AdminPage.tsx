@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import AppointmentDialog from "./components/AppointmentDialog";
 import AppointmentList from "./components/AppointmentList";
 import { IAppointment } from "./interfaces/IAppointment";
@@ -17,6 +17,18 @@ function AdminPage() {
         throw new Error("UserContext not found");
     }
     const { token } = userContext;
+
+    useEffect(() => {
+        if (token) {
+            getAppointmentsByWeek(token, new Date()).then((appointments) => {
+                setAppointments(appointments);
+            });
+        }
+    }, [token]);
+
+    useEffect(() => {
+        console.log(appointments);
+    }, [appointments]);
 
     const handleOpenDialog = () => {
         setIsDialogOpen(true);
@@ -39,17 +51,8 @@ function AdminPage() {
         setAppointments(appointments.map(appt => appt.id === updatedAppointment.id ? updatedAppointment : appt));
     };
 
-    const getAppointments = () => {
-        if (token) {
-            getAppointmentsByWeek(token, new Date()).then((appointments) => {
-                setAppointments(appointments);
-            });
-        }
-        console.log(appointments);
-    };
-
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen bg-white">
             {/* Sticky Navbar */}
             <div className="sticky top-0 z-10 bg-black p-2 shadow flex justify-between items-center">
                 {/* Left-aligned MACAR */}
@@ -57,7 +60,6 @@ function AdminPage() {
 
                 {/* Right-aligned buttons */}
                 <div className="flex gap-2 p-1">
-                    <button className="text-white bg-black hover:text-black hover:bg-white" onClick={getAppointments}>Get Appointments By Week</button>
                     <button className="text-white bg-black hover:text-black hover:bg-white" onClick={handleOpenDialog} variant="contained">
                         Make Appointment
                     </button>
@@ -68,7 +70,7 @@ function AdminPage() {
             <div className="flex flex-row flex-grow mt-4 gap-2 px-8 py-2">
                 {/* WeeklySchedule mit fester Größe */}
                 <div className="w-2/3 h-[600px] overflow-y-auto border border-gray-300 rounded-lg">
-                    <WeeklySchedule/>
+                    <WeeklySchedule appointments={appointments} setAppointments={setAppointments}/>
                 </div>
 
                 {/* AppointmentList */}
