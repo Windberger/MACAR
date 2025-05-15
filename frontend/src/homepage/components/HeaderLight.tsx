@@ -1,8 +1,13 @@
-import { useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
+import {useContext, useEffect, useState} from "react";
 import logo from "../assets/images/logo.png";
+import { Sling as Hamburger } from 'hamburger-react';
+import { RiSettingsFill, RiTempColdLine, RiTempHotLine, RiThunderstormsLine, RiGlobalLine } from "react-icons/ri";
+import LoginPageLight from "../pages/LoginPage/LoginPageLight.tsx";
+import { useTranslation } from "react-i18next";
 import { UserContext } from "../context/UserContext.tsx";
 import { RiCalendarLine, RiGlobeLine } from "react-icons/ri";
+import {logoutUser} from "../services/authService.ts";
+import {nullUser} from "../types/UserData.ts";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
@@ -12,21 +17,38 @@ function Header() {
     if (!userContext) {
         throw new Error("useUser must be used within a UserProvider");
     }
-    const { isLoggedIn } = userContext; // User login state
+    const { isLoggedIn, setIsLoggedIn, setToken, user, setUser, appointments, setAppointments } = userContext; // User login state
 
-    const toggleSidebar = () => {
-        setIsOpen(!isOpen);
+    const handleLogout = () => {
+        logoutUser().then(() => {
+            setIsLoggedIn(false);// Simulate logout
+            setToken(null);
+            setUser(nullUser);
+            setAppointments([]);
+        }).catch((error) => {
+            console.error("Error while logging out:", error);
+        });
     };
 
     const handleLoginRedirect = () => {
         window.location.href = "/login"; // Redirect to login page
     };
 
+    const icons = Array.from({ length: 8 }).map((_, index) => (
+        <RiSettingsFill
+            key={index}
+            className={`text-3xl ${index < user.bonus ? "text-red-700" : "text-gray-500"}`}
+        />
+    ));
+
     const getIcon = (type: string) => {
         switch (type) {
-            case "meeting":
-                return <RiCalendarLine size={20} />;
-            // Add more cases as needed
+            case "cold":
+                return <RiTempColdLine className="text-2xl" />;
+            case "hot":
+                return <RiTempHotLine className="text-2xl" />;
+            case "storm":
+                return <RiThunderstormsLine className="text-2xl" />;
             default:
                 return null;
         }
@@ -91,7 +113,7 @@ function Header() {
                         <RiCalendarLine
                             size={24}
                             className="text-black hover:text-red-700 cursor-pointer"
-                            onClick={toggleSidebar}
+                            onClick={() => setIsOpen(!isOpen)}
                         />
                     ) : (
                         <button
@@ -127,6 +149,19 @@ function Header() {
                                     <span className="ml-8">{appointment.description}</span>
                                 </div>
                             ))}
+                        </div>
+                        <div className="mt-auto w-full">
+                            <div className="grid grid-cols-4 gap-2 justify-items-center">
+                                {icons}
+                            </div>
+                            <div className="px-4">
+                                <button
+                                    onClick={handleLogout}
+                                    className="hover:bg-red-700 text-white py-3 rounded w-full mt-8 p-4 mb-4"
+                                >
+                                    {t("headerLogout")}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
