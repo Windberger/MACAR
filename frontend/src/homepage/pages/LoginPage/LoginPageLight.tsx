@@ -242,7 +242,7 @@ function LoginPageLight() {
                     <button
                         type="button"
                         onClick={() => setIsRegistering(!isRegistering)}
-                        className="hover:underline text-red-500 focus:outline-none"
+                        className="hover:underline bg-red-100 text-red-500 focus:outline-none"
                     >
                         {isRegistering ? t("loginPageIsLoggingIn") : t("loginPageIsRegistering")}
                     </button>
