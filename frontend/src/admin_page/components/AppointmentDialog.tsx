@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from "react";
+import { useState, useEffect, useContext } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -6,10 +6,11 @@ import {
     DialogActions,
     Button,
     TextField,
-    MenuItem
+    MenuItem,
 } from "@mui/material";
-import {IAppointment} from "../interfaces/IAppointment.ts";
-import {addAppointment} from "../services/appointmentService.ts";
+import { IAppointment } from "../interfaces/IAppointment";
+import { addAppointment } from "../services/appointmentService";
+import { UserContext } from "../../homepage/context/UserContext";
 
 interface AppointmentDialogProps {
     open: boolean;
@@ -18,29 +19,34 @@ interface AppointmentDialogProps {
     appointment?: IAppointment | null;
 }
 
-import {UserContext} from "../../homepage/context/UserContext.tsx";
-
-
-const AppointmentDialog: React.FC<AppointmentDialogProps> = ({open, onClose, onSubmit, appointment}) => {
+const AppointmentDialog: React.FC<AppointmentDialogProps> = ({
+                                                                 open,
+                                                                 onClose,
+                                                                 onSubmit,
+                                                                 appointment,
+                                                             }) => {
+    const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [type, setType] = useState("");
     const [description, setDescription] = useState("");
     const userContext = useContext(UserContext);
+
     if (!userContext) {
         throw new Error("UserContext not found");
     }
-    const {token} = userContext;
 
+    const { token } = userContext;
 
     useEffect(() => {
         if (appointment) {
-            console.log("in appointment!!!!!!!!!!!!!!!!");
+            setTitle(appointment.title || "");
             setDate(appointment.datetimeString.split("T")[0]);
             setTime(appointment.datetimeString.split("T")[1]);
             setType(appointment.type);
             setDescription(appointment.description);
         } else {
+            setTitle("");
             setDate("");
             setTime("");
             setType("");
@@ -50,51 +56,59 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({open, onClose, onS
 
     const handleSubmit = async () => {
         if (token) {
-            console.log(type)
-
             const datetimeString = `${date}T${time}`;
             const newAppointment: IAppointment = {
                 id: appointment ? appointment.id : Date.now(),
+                title,
                 datetime: new Date(datetimeString),
                 datetimeString,
                 type,
-                description
+                description,
             };
 
             try {
-                console.log(newAppointment);
                 await addAppointment(token, newAppointment);
                 onSubmit(newAppointment);
                 onClose();
             } catch (error) {
-                console.error("Fehler beim Hinzufügen des Termins:", error);
+                console.error("Error adding appointment:", error);
             }
-        } else {
-            console.log("no token");
         }
     };
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>{appointment ? "Edit Appointment" : "Make an Appointment"}</DialogTitle>
-            <DialogContent>
+            <DialogTitle className="dark:text-white dark:bg-gray-800">
+                {appointment ? "Edit Appointment" : "Make an Appointment"}
+            </DialogTitle>
+            <DialogContent className="dark:bg-gray-800">
+                <TextField
+                    fullWidth
+                    margin="dense"
+                    label="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                />
                 <TextField
                     fullWidth
                     margin="dense"
                     label="Date"
                     type="date"
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
                 />
                 <TextField
                     fullWidth
                     margin="dense"
                     label="Time"
                     type="time"
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
                 />
                 <TextField
                     fullWidth
@@ -103,10 +117,17 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({open, onClose, onS
                     select
                     value={type}
                     onChange={(e) => setType(e.target.value)}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
                 >
-                    <MenuItem value="Consultation">Consultation</MenuItem>
-                    <MenuItem value="Checkup">Checkup</MenuItem>
-                    <MenuItem value="Follow-up">Follow-up</MenuItem>
+                    <MenuItem value="Consultation" className="dark:text-white dark:bg-gray-700">
+                        Consultation
+                    </MenuItem>
+                    <MenuItem value="Checkup" className="dark:text-white dark:bg-gray-700">
+                        Checkup
+                    </MenuItem>
+                    <MenuItem value="Follow-up" className="dark:text-white dark:bg-gray-700">
+                        Follow-up
+                    </MenuItem>
                 </TextField>
                 <TextField
                     fullWidth
@@ -116,11 +137,16 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({open, onClose, onS
                     rows={3}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
                 />
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained">Submit</Button>
+            <DialogActions className="dark:bg-gray-800">
+                <Button onClick={onClose} className="dark:text-white">
+                    Cancel
+                </Button>
+                <Button onClick={handleSubmit} variant="contained" className="dark:bg-blue-600">
+                    Submit
+                </Button>
             </DialogActions>
         </Dialog>
     );

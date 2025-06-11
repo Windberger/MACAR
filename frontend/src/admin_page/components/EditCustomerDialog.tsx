@@ -14,8 +14,10 @@ const EditCustomerDialog = ({ customer, onClose, onSave }) => {
 
     return (
         <Dialog open={true} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>Edit Customer</DialogTitle>
-            <DialogContent>
+            <DialogTitle className="dark:bg-gray-800 dark:text-white">
+                Edit Customer
+            </DialogTitle>
+            <DialogContent className="dark:bg-gray-800">
                 <TextField
                     margin="dense"
                     label="Name"
@@ -23,6 +25,8 @@ const EditCustomerDialog = ({ customer, onClose, onSave }) => {
                     fullWidth
                     value={formData.name}
                     onChange={handleChange}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                    InputLabelProps={{ className: "dark:text-gray-300" }}
                 />
                 <TextField
                     margin="dense"
@@ -31,6 +35,8 @@ const EditCustomerDialog = ({ customer, onClose, onSave }) => {
                     fullWidth
                     value={formData.contact}
                     onChange={handleChange}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                    InputLabelProps={{ className: "dark:text-gray-300" }}
                 />
                 <TextField
                     margin="dense"
@@ -39,13 +45,15 @@ const EditCustomerDialog = ({ customer, onClose, onSave }) => {
                     fullWidth
                     value={formData.points}
                     onChange={handleChange}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                    InputLabelProps={{ className: "dark:text-gray-300" }}
                 />
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="secondary">
+            <DialogActions className="dark:bg-gray-800">
+                <Button onClick={onClose} className="dark:text-gray-300">
                     Cancel
                 </Button>
-                <Button onClick={handleSave} color="primary">
+                <Button onClick={handleSave} className="dark:bg-blue-600 dark:text-white">
                     Save
                 </Button>
             </DialogActions>

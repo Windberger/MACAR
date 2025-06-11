@@ -28,25 +28,25 @@ const CustomerList = () => {
             <input
                 type="text"
                 placeholder="Suche nach Namen..."
-                className="mb-4 px-4 py-2 border-2 border-black rounded-md w-full"
+                className="mb-4 px-4 py-2 border-2 border-black dark:border-gray-400 dark:bg-gray-400 rounded-md w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            <table className="w-full bg-white shadow-md border-t-2 border-l-2 border-r-2 border-b-2 border-black rounded-lg">
-                <thead>
-                <tr className="bg-black text-white uppercase text-sm leading-normal">
+            <table className="w-full bg-white dark:bg-gray-800 shadow-md border-t-2 border-l-2 border-r-2 border-b-2 border-black dark:border-gray-400 rounded-lg">
+                <thead className="rounded-xl">
+                <tr className="bg-black dark:bg-gray-400 dark:text-black text-white uppercase text-sm leading-normal">
                     <th className="py-3 px-6 text-left">Name</th>
                     <th className="py-3 px-6 text-left">Mobile / Email</th>
                     <th className="py-3 px-6 text-center">Points/8</th>
                     <th className="py-3 px-6 text-center">Operation</th>
                 </tr>
                 </thead>
-                <tbody className="text-gray-700 text-sm font-light">
+                <tbody className="text-gray-700 dark:text-gray-100 text-sm font-light">
                 {filteredCustomers.map((customer) => (
                     <tr
                         key={customer.id}
-                        className="border border-gray-200 rounded-lg hover:bg-gray-100"
+                        className="border border-gray-200 rounded-lg hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-700 transition duration-300"
                     >
                         <td className="py-3 px-6 text-left whitespace-nowrap">{customer.name}</td>
                         <td className="py-3 px-6 text-left">{customer.contact}</td>
@@ -54,13 +54,13 @@ const CustomerList = () => {
                         <td className="py-3 px-6 text-center">
                             <div className="flex justify-center space-x-4">
                                 <button
-                                    className="bg-white text-grey-700 bg-gray-100 hover:text-blue-700"
+                                    className="dark:bg-gray-800 dark:text-gray-100 text-grey-700 bg-gray-100 hover:text-blue-700"
                                     onClick={() => setEditCustomer(customer)}
                                 >
                                     <FaEdit size={18} />
                                 </button>
                                 <button
-                                    className="bg-white text-red-500 hover:text-red-700"
+                                    className="bg-white dark:bg-gray-800 text-red-500 hover:text-red-700"
                                     onClick={() => handleDelete(customer.id)}
                                 >
                                     <FaTrash size={18} />

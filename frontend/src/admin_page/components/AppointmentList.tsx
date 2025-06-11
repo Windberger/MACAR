@@ -56,17 +56,22 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit, app
     );
 
     return (
-        <div className="w-full max-h-[500px] overflow-y-auto p-4 border-2 border-black rounded-lg bg-white shadow-sm">
+        <div className="w-full max-h-[500px] overflow-y-auto p-4 border-2 border-black dark:border-gray-400 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
             <div className="flex gap-4 mb-4">
                 <FormControl className="w-full">
-                    <InputLabel>Sort by</InputLabel>
+                    <InputLabel className="dark:text-white">Sort by</InputLabel>
                     <Select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
                         label="Sort by"
+                        className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
                     >
-                        <MenuItem value="date">Date</MenuItem>
-                        <MenuItem value="title">Title</MenuItem>
+                        <MenuItem value="date" className="dark:text-white dark:bg-gray-700">
+                            Date
+                        </MenuItem>
+                        <MenuItem value="title" className="dark:text-white dark:bg-gray-700">
+                            Title
+                        </MenuItem>
                     </Select>
                 </FormControl>
                 <TextField
@@ -75,6 +80,10 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit, app
                     variant="outlined"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                    InputLabelProps={{
+                        className: "dark:text-white"
+                    }}
                 />
             </div>
 
