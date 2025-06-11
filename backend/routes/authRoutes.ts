@@ -105,8 +105,8 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
 
 
             res.cookie('refreshToken', refreshToken, {
-                httpOnly: false,
-                secure: false, // Nur für HTTPS
+                httpOnly: true,
+                secure: true, // Nur für HTTPS
                 sameSite: 'none',
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30 * 365) // 30 Tage
             });
