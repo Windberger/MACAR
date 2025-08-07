@@ -1,11 +1,10 @@
-import * as express from "express";
+import express from "express";
 import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import appointmentRoutes from "./routes/appointmentRoutes";
-import * as crypto from "node:crypto";
 import * as path from "node:path";
 
 const app = express();
@@ -13,6 +12,7 @@ const port = 3001;
 const cors = require('cors');
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// @ts-ignore
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
 });

@@ -143,6 +143,7 @@ router.post('/token', async (req, res) => {
             return res.sendStatus(403);
         }
 
+        // @ts-ignore
         jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: any, user: { id: any; }) => {
             if (err) return res.sendStatus(403);
 
