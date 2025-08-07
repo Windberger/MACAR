@@ -2,7 +2,7 @@ import axios from 'axios';
 //import { updateToken } from '../context/TokenUpdater';
 
 const apiClient = axios.create({
-    baseURL: 'https://macar.onrender.com:3001',
+    baseURL: 'https://macar.onrender.com',
     headers: {
         'Content-Type': 'application/json',
     },
