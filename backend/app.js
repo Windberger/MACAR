@@ -7,12 +7,17 @@ var express_rate_limit_1 = require("express-rate-limit");
 var authRoutes_1 = require("./routes/authRoutes");
 var userRoutes_1 = require("./routes/userRoutes");
 var appointmentRoutes_1 = require("./routes/appointmentRoutes");
+var path = require("node:path");
 var app = express();
 var port = 3001;
 var cors = require('cors');
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.get('*', function (req, res) {
+    res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
+});
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:3001',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

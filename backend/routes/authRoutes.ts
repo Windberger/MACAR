@@ -4,8 +4,11 @@ import * as validator from 'validator';
 import {pool} from '../database/db';
 import * as jwt from 'jsonwebtoken';
 import {DB_User} from "../database/interfaces";
-import { sendEmailVerification } from '../utils/verificationEmail';
 
+
+if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET || !process.env.ACCESS_TOKEN_LIFETIME || !process.env.REFRESH_TOKEN_LIFETIME) {
+    throw new Error("Missing required environment variables");
+}
 
 const router = express.Router();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -97,7 +100,9 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
             return res.status(401).json({message: 'Invalid credentials'});
         }
 
+        // @ts-ignore
         const accessToken = jwt.sign({id: user.user_id}, ACCESS_TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_LIFETIME});
+        // @ts-ignore
         const refreshToken = jwt.sign({id: user.user_id}, REFRESH_TOKEN_SECRET, {expiresIn: REFRESH_TOKEN_LIFETIME});
 
         try {
@@ -141,6 +146,7 @@ router.post('/token', async (req, res) => {
         jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: any, user: { id: any; }) => {
             if (err) return res.sendStatus(403);
 
+            // @ts-ignore
             const accessToken = jwt.sign({id: user.id}, ACCESS_TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_LIFETIME});
             res.json({accessToken});
         });
