@@ -71,26 +71,26 @@ function Header() {
                     <div className="relative">
                         <RiGlobeLine
                             size={24}
-                            className="text-black hover:text-red-700 cursor-pointer"
+                            className="text-black hover:text-red-700 cursor-pointer "
                             onClick={toggleLanguageMenu}
                             title={t("changeLanguage")}
                         />
                         {isLanguageMenuOpen && (
                             <div className="absolute mt-2 w-32 bg-white border border-gray-300 rounded shadow-lg">
                                 <button
-                                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
+                                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100 bg-gray-50"
                                     onClick={() => changeLanguage("en")}
                                 >
                                     English
                                 </button>
                                 <button
-                                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
+                                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100 bg-gray-50"
                                     onClick={() => changeLanguage("de")}
                                 >
                                     Deutsch
                                 </button>
                                 <button
-                                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
+                                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100 bg-gray-50"
                                     onClick={() => changeLanguage("bs")}
                                 >
                                     Bosanski
@@ -112,7 +112,7 @@ function Header() {
                     {isLoggedIn ? (
                         <RiCalendarLine
                             size={24}
-                            className="text-black hover:text-red-700 cursor-pointer"
+                            className={`cursor-pointer ${isOpen ? "text-white" : "text-black"} hover:text-red-700`}
                             onClick={() => setIsOpen(!isOpen)}
                         />
                     ) : (
