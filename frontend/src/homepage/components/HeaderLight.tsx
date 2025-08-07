@@ -31,7 +31,7 @@ function Header() {
     };
 
     const handleLoginRedirect = () => {
-        window.location.href = "/login"; // Redirect to login page
+        window.location.href = "/loginPage"; // Redirect to login page
     };
 
     const icons = Array.from({ length: 8 }).map((_, index) => (

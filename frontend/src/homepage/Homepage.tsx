@@ -14,7 +14,7 @@ function Homepage() {
         <div className={"bg-white"}>
             <HeaderLight/>
             <div className="mb-12 mt-12">
-                <button className="text-black" onClick={() => navigate("/admin")}>Admin</button>
+                <button className="text-black" onClick={() => navigate("/adminPage")}>Admin</button>
                 <HeroImageLight/>
             </div>
             <div className="mb-12 mt-12">

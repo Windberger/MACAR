@@ -19,7 +19,7 @@ app.get('*', (req, res) => {
 
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://macar.onrender.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true

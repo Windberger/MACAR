@@ -54,11 +54,11 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Homepage/>}/>
-                <Route path="/admin" element={
+                <Route path="/adminPage" element={
                     <AdminPage/>
 
                 }/>
-                <Route path="/login" element={<LoginPageLight/>}/>
+                <Route path="/loginPage" element={<LoginPageLight/>}/>
             </Routes>
         </BrowserRouter>
     );
