@@ -31,7 +31,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, onClick 
         >
             <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                 {iconMap[appointment.type]}
-                <Typography variant="h6" sx={{ marginTop: 1 }}>{appointment.title}</Typography>
+                <Typography variant="h6" sx={{ marginTop: 1 }}>{appointment.type}</Typography>
             </CardContent>
 
             <CardContent sx={{ textAlign: "right" }}>

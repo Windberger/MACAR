@@ -16,12 +16,13 @@ interface AppointmentListProps {
     appointmentProp: IAppointment[];
 }
 
-const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit, appointmentProp }) => {
+const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit, appointmentProp}) => {
     const [appointments, setAppointments] = useState<IAppointment[]>(appointmentProp);
     const [sortBy, setSortBy] = useState("date");
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    console.log("Appointments in AppointmentList:", appointments);
 
     const handleOpenDialog = (appointment: IAppointment | null) => {
         setSelectedAppointment(appointment);
@@ -51,7 +52,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ onDelete, onEdit, app
 
     const filteredAppointments = sortedAppointments.filter(
         (appointment) =>
-            appointment.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            appointment.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
             appointment.datetimeString.includes(searchTerm)
     );
 

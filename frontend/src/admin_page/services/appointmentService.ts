@@ -1,5 +1,6 @@
 import apiClient from './apiClient';
-import {IAppointment, IDBAppointment} from "../interfaces/IAppointment.ts";
+import {AddAppointment, IAppointment, IDBAppointment} from "../interfaces/IAppointment.ts";
+import axios from "axios";
 
 export const getAppointmentsByWeek = async (token: string, date: Date) => {
     try {
@@ -18,6 +19,11 @@ export const getAppointmentsByWeek = async (token: string, date: Date) => {
             datetimeString: new Date(appointment.appointment_datetime).toISOString(),
             type: appointment.appointment_type,
             description: appointment.description,
+            user_id: appointment.user_id,
+            first_name: appointment.first_name,
+            last_name: appointment.last_name,
+            email: appointment.email,
+            bonus: appointment.bonus,
         }));
 
         return appointments;
@@ -54,21 +60,18 @@ export const getAppointmentById = async (token: string, appointmentId: number) =
 };
 
 
-export const addAppointment = async (token: string, appointment: { user: number, datetime: string, type: string, description?: string }) => {
+export const addAppointment = async (token: string, appointment: AddAppointment) => {
     try {
-        const response = await fetch('/addAppointment', {
-            method: 'POST',
+        console.log("Adding appointment:", appointment);
+
+        appointment.datetime = appointment.datetime.toISOString();
+        const response = await apiClient.post('/addAppointment', appointment, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify(appointment),
         });
 
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-
-        return await response.json();
+        return await response.data;
     } catch (error) {
         console.error('Error adding appointment:', error);
         throw error;

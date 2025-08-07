@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import {useState, useEffect, useContext} from "react";
 import {
     Dialog,
     DialogTitle,
@@ -8,9 +8,11 @@ import {
     TextField,
     MenuItem,
 } from "@mui/material";
-import { IAppointment } from "../interfaces/IAppointment";
-import { addAppointment } from "../services/appointmentService";
-import { UserContext } from "../../homepage/context/UserContext";
+import {AddAppointment, IAppointment} from "../interfaces/IAppointment";
+import {addAppointment} from "../services/appointmentService";
+import {UserContext} from "../../homepage/context/UserContext";
+import {User} from "../types/UserData.ts";
+import {fetchAllUsers} from "../services/userService.ts";
 
 interface AppointmentDialogProps {
     open: boolean;
@@ -25,53 +27,66 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({
                                                                  onSubmit,
                                                                  appointment,
                                                              }) => {
-    const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [type, setType] = useState("");
     const [description, setDescription] = useState("");
     const userContext = useContext(UserContext);
+    const [users, setUsers] = useState<User[]>([]);
+    const [selectedUserId, setSelectedUserId] = useState<number>(0);
 
     if (!userContext) {
         throw new Error("UserContext not found");
     }
 
-    const { token } = userContext;
+    const {token} = userContext;
 
     useEffect(() => {
         if (appointment) {
-            setTitle(appointment.title || "");
             setDate(appointment.datetimeString.split("T")[0]);
-            setTime(appointment.datetimeString.split("T")[1]);
+            setTime(appointment.datetimeString.split("T")[1].split(":")[0] + ":"
+                + appointment.datetimeString.split("T")[1].split(":")[1]);
+            console.log(appointment)
             setType(appointment.type);
             setDescription(appointment.description);
         } else {
-            setTitle("");
             setDate("");
             setTime("");
             setType("");
             setDescription("");
         }
+
+        if(!token) {
+            console.error("No token found. ");
+            return;
+        }
+
+        fetchAllUsers(token).then((fetchedUsers) => {
+            setUsers(fetchedUsers);
+        }).catch((error) => {
+            console.error("Error fetching users:", error);
+            setUsers([]);
+        });
     }, [appointment]);
 
     const handleSubmit = async () => {
         if (token) {
-            const datetimeString = `${date}T${time}`;
-            const newAppointment: IAppointment = {
-                id: appointment ? appointment.id : Date.now(),
-                title,
-                datetime: new Date(datetimeString),
-                datetimeString,
-                type,
-                description,
-            };
+            if(appointment) {
+                const datetimeString = `${date}T${time}`;
+                const newAppointment: AddAppointment = {
+                    user: selectedUserId,
+                    datetime: new Date(datetimeString),
+                    type: type,
+                    description: description,
+                };
 
-            try {
-                await addAppointment(token, newAppointment);
-                onSubmit(newAppointment);
-                onClose();
-            } catch (error) {
-                console.error("Error adding appointment:", error);
+                try {
+                    await addAppointment(token, newAppointment);
+                    onSubmit(newAppointment);
+                    onClose();
+                } catch (error) {
+                    console.error("Error adding appointment:", error);
+                }
             }
         }
     };
@@ -82,20 +97,39 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({
                 {appointment ? "Edit Appointment" : "Make an Appointment"}
             </DialogTitle>
             <DialogContent className="dark:bg-gray-800">
-                <TextField
-                    fullWidth
-                    margin="dense"
-                    label="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                />
+
+                {
+                    appointment &&
+                    <TextField
+                        fullWidth
+                        margin="dense"
+                        label="User"
+                        select
+                        value={appointment.first_name}
+                        onChange={(e) => {
+                            setSelectedUserId(e.target.value);
+                        }}
+                        className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                    >
+                        {
+                            users.map((user) => (
+                                <MenuItem
+                                    key={user.user_id}
+                                    value={user.user_id}
+                                    className="dark:text-white dark:bg-gray-700"
+                                >
+                                    {`${user.first_name} ${user.last_name} (${user.email})`}
+                                </MenuItem>
+                            ))
+                        }
+                    </TextField>
+                }
                 <TextField
                     fullWidth
                     margin="dense"
                     label="Date"
                     type="date"
-                    InputLabelProps={{ shrink: true }}
+                    InputLabelProps={{shrink: true}}
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
@@ -105,7 +139,7 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({
                     margin="dense"
                     label="Time"
                     type="time"
-                    InputLabelProps={{ shrink: true }}
+                    InputLabelProps={{shrink: true}}
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
                     className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
@@ -120,13 +154,10 @@ const AppointmentDialog: React.FC<AppointmentDialogProps> = ({
                     className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
                 >
                     <MenuItem value="Consultation" className="dark:text-white dark:bg-gray-700">
-                        Consultation
+                        Repairing
                     </MenuItem>
                     <MenuItem value="Checkup" className="dark:text-white dark:bg-gray-700">
-                        Checkup
-                    </MenuItem>
-                    <MenuItem value="Follow-up" className="dark:text-white dark:bg-gray-700">
-                        Follow-up
+                        Car-Wash
                     </MenuItem>
                 </TextField>
                 <TextField

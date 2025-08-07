@@ -6,31 +6,29 @@ import { getAppointmentsByWeek } from "./services/appointmentService";
 import { UserContext } from "../homepage/context/UserContext";
 import CustomerList from "./components/CustomerList";
 import WeeklySchedule from "./components/WeeklySchedule";
+import {User} from "./types/UserData.ts";
 
 function AdminPage() {
     const [appointments, setAppointments] = useState<IAppointment[]>([
         {
-            title: "Mock Appointment",
             id: 1,
             datetime: new Date("2023-10-10T10:00:00"),
             datetimeString: "2023-10-10T10:00:00",
-            type: "Consultation",
+            type: "Car-Wash",
             description: "Mock Appointment",
         },
         {
-            title: "Mock 2",
             id: 2,
             datetime: new Date("2023-11-10T11:00:00"),
             datetimeString: "2023-11-10T11:00:00",
-            type: "Consultation",
+            type: "Repairing",
             description: "Mock Description",
         },
         {
-            title: "Mock 3",
             id: 3,
             datetime: new Date("2025-16-05T11:00:00"),
             datetimeString: "2025-05-16T11:00:00",
-            type: "Consultation",
+            type: "Car-Wash",
             description: "Mock Description",
         },
     ]);
@@ -47,9 +45,11 @@ function AdminPage() {
         if (token) {
             getAppointmentsByWeek(token, new Date()).then((fetchedAppointments) => {
                 setAppointments((prevAppointments) => [...prevAppointments, ...fetchedAppointments]);
+                console.log("Fetched appointments:", fetchedAppointments);
             });
+
         }
-    }, [token]);
+    }, []);
 
     const handleOpenDialog = (appointment: IAppointment | null = null, dateTime: Date | null = null) => {
         if (!appointment && dateTime) {
@@ -59,7 +59,6 @@ function AdminPage() {
                 datetimeString: dateTime.toISOString(),
                 type: "",
                 description: "",
-                title: "",
             });
         } else {
             setSelectedAppointment(appointment);
@@ -146,6 +145,7 @@ function AdminPage() {
                         appointmentProp={appointments}
                         onDelete={handleDelete}
                         onEdit={handleEdit}
+                        token={token!}
                     />
                 </div>
             </div>

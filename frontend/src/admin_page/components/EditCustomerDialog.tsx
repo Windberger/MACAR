@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from "@mui/material";
+import React, {useState} from "react";
+import {Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button} from "@mui/material";
+import {User} from "../types/UserData.ts";
 
-const EditCustomerDialog = ({ customer, onClose, onSave }) => {
-    const [formData, setFormData] = useState({ ...customer });
+interface EditCustomerDialogProps {
+    customer: User;
+    onClose: () => void;
+    onSave: (customer: User) => void;
+}
+
+const EditCustomerDialog = ({customer, onClose, onSave}: EditCustomerDialogProps) => {
+    const [formData, setFormData] = useState({...customer});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({...formData, [e.target.name]: e.target.value});
     };
 
     const handleSave = () => {
@@ -20,33 +27,44 @@ const EditCustomerDialog = ({ customer, onClose, onSave }) => {
             <DialogContent className="dark:bg-gray-800">
                 <TextField
                     margin="dense"
-                    label="Name"
-                    name="name"
+                    label="First Name"
+                    name="first_name"
                     fullWidth
-                    value={formData.name}
+                    value={formData.first_name}
                     onChange={handleChange}
                     className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                    InputLabelProps={{ className: "dark:text-gray-300" }}
+                    InputLabelProps={{className: "dark:text-gray-300"}}
+                />
+                <TextField
+                    margin="dense"
+                    label="Last Name"
+                    name="last_name"
+                    fullWidth
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
+                    InputLabelProps={{className: "dark:text-gray-300"}}
                 />
                 <TextField
                     margin="dense"
                     label="Mobile / Email"
-                    name="contact"
+                    name="email"
                     fullWidth
-                    value={formData.contact}
+                    value={formData.email}
                     onChange={handleChange}
                     className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                    InputLabelProps={{ className: "dark:text-gray-300" }}
+                    InputLabelProps={{className: "dark:text-gray-300"}}
                 />
                 <TextField
                     margin="dense"
                     label="Points (out of 8)"
-                    name="points"
+                    name="bonus"
                     fullWidth
-                    value={formData.points}
+                    type="number"
+                    value={formData.bonus}
                     onChange={handleChange}
                     className="dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                    InputLabelProps={{ className: "dark:text-gray-300" }}
+                    InputLabelProps={{className: "dark:text-gray-300"}}
                 />
             </DialogContent>
             <DialogActions className="dark:bg-gray-800">

@@ -39,7 +39,7 @@ router.get('/getAppointmentsByWeek', authMiddleware, async (req, res) => {
     console.log(weekStart, weekEnd);
 
 
-    const result = await pool.query("SELECT appointment_id, appointment_datetime, appointment_type, description FROM appointment WHERE appointment_datetime >= $1 AND appointment_datetime <= $2 ORDER BY appointment_datetime;", [weekStart, weekEnd]);
+    const result = await pool.query("SELECT appointment_id, appointment_datetime, appointment_type, description, appointment.user_id, first_name, last_name, email, bonus FROM appointment INNER JOIN user_account ON appointment.user_id = user_account.user_id WHERE appointment_datetime >= $1 AND appointment_datetime <= $2 ORDER BY appointment_datetime;", [weekStart, weekEnd]);
 
     res.status(200).json(result.rows);
 })
@@ -60,6 +60,7 @@ router.get('/getAppointmentById', authMiddleware, async (req, res) => {
 router.post('/addAppointment', authMiddleware, async (req, res) => {
     let {user, datetime, type, description} = req.body;
 
+    console.log("Adding appointment:", req.body);
     if (!user || !datetime || !type) {
         return res.status(400).json({message: 'Missing required information'});
     }

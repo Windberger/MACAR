@@ -4,12 +4,17 @@ import InformationCardsLayoutLight from "./pages/InformationCards/InformationCar
 import Carousel from "./pages/CompanyPage/Carousel.tsx";
 import Contact from "./pages/CompanyPage/Contact.tsx";
 import OlxImageComponent from "./components/OlxContainer.tsx";
+import {useNavigate} from "react-router-dom";
 
 function Homepage() {
+
+    const navigate = useNavigate();
+
     return (
         <div className={"bg-white"}>
             <HeaderLight/>
             <div className="mb-12 mt-12">
+                <button className="text-black" onClick={() => navigate("/admin")}>Admin</button>
                 <HeroImageLight/>
             </div>
             <div className="mb-12 mt-12">
