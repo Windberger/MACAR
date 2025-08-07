@@ -11,10 +11,10 @@ const app = express();
 const port = 3001;
 const cors = require('cors');
 
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 // @ts-ignore
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
+  res.sendFile(path.resolve(__dirname, '../../frontend/dist/index.html'));
 });
 
 app.use(cookieParser());
